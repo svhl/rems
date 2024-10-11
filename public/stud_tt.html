@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <title>School Schedule</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>School Schedule for the Next 7 Days</h1>
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Period 1</th>
+                <th>Period 2</th>
+                <th>Period 3</th>
+                <th>Period 4</th>
+                <th>Period 5</th>
+                <th>Period 6</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to format date as "dd MMM yyyy"
+        function formatDate(dateString) {
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-GB', options);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the user is authenticated
+            fetch('/api/check-auth')
+                .then(response => {
+                    if (response.status === 401) {
+                        // Redirect to index.html if not authenticated
+                        window.location.href = 'index.html';
+                    } else if (response.ok) {
+                        // Fetch schedule data if authenticated
+                        fetch('/api/schedule')
+                            .then(response => response.json())
+                            .then(data => {
+                                const tableBody = document.querySelector('#scheduleTable tbody');
+                                data.forEach(row => {
+                                    const tr = document.createElement('tr');
+                                    tr.innerHTML = `
+                                        <td>${formatDate(row.day)}</td>
+                                        <td>${row.period1 || ''}</td>
+                                        <td>${row.period2 || ''}</td>
+                                        <td>${row.period3 || ''}</td>
+                                        <td>${row.period4 || ''}</td>
+                                        <td>${row.period5 || ''}</td>
+                                        <td>${row.period6 || ''}</td>
+                                    `;
+                                    tableBody.appendChild(tr);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching data:', error));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'index.html';
+                });
+        });
+    </script>
+</body>
+</html>
+
