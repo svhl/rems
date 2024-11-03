@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>REMS | Student Events</title>
-	<link rel="stylesheet" href="stud_events.css" />
-	<link rel="icon" href="rajagiri.png" type="image/png">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Student Events</title>
+	<link rel="stylesheet" href="stud_events.css">
 </head>
 <body>
-	<!-- Logo to return to the homepage -->
-	<div class="logo">
-		<a href="index.html"><img src="rajagiri.png" alt="Rajagiri Logo" /></a>
-	</div>
-	
 	<h1>Available Events</h1>
-	
-	<div id="event-list" class="scrollable-list">
-		<!-- Events will be dynamically inserted here -->
+	<!-- Filter Dropdown -->
+	<label for="filterDropdown">Filter Events:</label>
+	<select id="filterDropdown">
+		<option value="all">All Events</option>
+		<option value="upcoming">Upcoming Events</option>
+		<option value="lastWeek">Events in Last Week</option>
+		<option value="lastMonth">Events in Last Month</option>
+		<option value="lastSixMonths">Events in Last 6 Months</option>
+	</select>
+	<!-- Events Container -->
+	<div id="eventsContainer">
+		<!-- Events will be dynamically loaded here -->
 	</div>
-
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
+		// Function to format date as "dd MMM yyyy"
+		function formatDate(dateString) {
+			const options = { day: '2-digit', month: 'short', year: 'numeric' };
+			return new Date(dateString).toLocaleDateString('en-GB', options);
+		}
+		document.addEventListener("DOMContentLoaded", function () {
 			// Check if the user is authenticated
 			fetch('/api/check-auth')
 				.then(response => {
@@ -28,37 +35,81 @@
 						// Redirect to index.html if not authenticated
 						window.location.href = 'index.html';
 					} else if (response.ok) {
-						// Fetch events data if authenticated
-						fetch('/api/events')
-							.then(response => response.json())
-							.then(events => {
-								const eventList = document.getElementById('event-list');
-								events.forEach(event => {
-									const eventItem = document.createElement('div');
-									eventItem.classList.add('event-item');
-
-									eventItem.innerHTML = `
-										<h2>${event.name}</h2>
-										<p><strong>Start Date:</strong> ${event.start_date}</p>
-										<p><strong>End Date:</strong> ${event.end_date}</p>
-										<p><strong>Start Time:</strong> ${event.start_time}</p>
-										<p><strong>End Time:</strong> ${event.end_time}</p>
-										<p><strong>Points:</strong> ${event.points}</p>
-										<p><strong>Fee:</strong> ${event.fee}</p>
-										<p><strong>Venue:</strong> ${event.venue}</p>
-										<a href="${event.link}" target="_blank">More Info</a>
-									`;
-									eventList.appendChild(eventItem);
-								});
-							})
-							.catch(error => console.error('Error fetching events:', error));
+						// Load events with the selected filter
+						loadEvents();
 					}
 				})
 				.catch(error => {
 					console.error('Error checking authentication:', error);
 					window.location.href = 'index.html';
 				});
+			// Load events with optional filtering
+			function loadEvents(filter = 'all') {
+				fetch(`/api/events?filter=${filter}`)
+					.then(response => response.json())
+					.then(events => {
+						const eventsContainer = document.getElementById('eventsContainer');
+						eventsContainer.innerHTML = ''; // Clear previous events
+						events.forEach(event => {
+							const eventDiv = document.createElement('div');
+							eventDiv.classList.add('event');
+							eventDiv.innerHTML = `
+								<strong>${event.name}</strong> <br>
+								${formatDate(event.start_date)} <br>
+								<span>Start Time: ${event.start_time}</span> <br>
+								${formatDate(event.end_date)} <br>
+								<span>End Time: ${event.end_time}</span> <br>
+								Points: ${event.points}, Fee: ${event.fee} <br>
+								Venue: ${event.venue} <br>
+								<a href="${event.link}" target="_blank">Event Link</a> <br>
+								<input type="file" id="certificateInput-${event.event_id}">
+								<button onclick="submitCertificate(${event.event_id})">Upload Certificate</button>
+							`;
+							eventsContainer.appendChild(eventDiv);
+						});
+					})
+					.catch(error => console.error('Error fetching events:', error));
+			}
+			// Dropdown filter logic
+			const filterDropdown = document.getElementById('filterDropdown');
+			filterDropdown.addEventListener('change', () => {
+				const selectedFilter = filterDropdown.value;
+				loadEvents(selectedFilter); // Load events based on selected filter
+			});
 		});
+		// Function to submit certificate
+function submitCertificate(event_id) {
+	console.log('Submitting certificate with Event ID:', event_id);
+	const input = document.querySelector(`#certificateInput-${event_id}`);
+	if (!input.files.length) { // Check if a file has been selected
+		alert('Please select a certificate file to upload.');
+		return; // Exit the function if no file is selected
+	}
+	
+	const formData = new FormData();
+	formData.append('event_id', event_id);  // Ensure event_id is included
+	formData.append('certificate', input.files[0]);  // Ensure a file is selected
+	
+	console.log('Submitting certificate with Event ID:', event_id); // Log event_id
+	console.log('Selected file:', input.files[0]); // Log the selected file for debugging
+
+	fetch('/api/submit', {
+		method: 'POST',
+		body: formData
+	})
+	.then(response => {
+		if (response.ok) {
+			alert('Certificate uploaded successfully.');
+			loadEvents(); // Reload events after submission
+		} else {
+			alert('Error uploading certificate: ' + response.statusText);
+		}
+	})
+	.catch(error => console.error('Error submitting certificate:', error));
+}
+	
+
 	</script>
 </body>
 </html>
+

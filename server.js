@@ -3,6 +3,8 @@ const mysql = require('mysql2');
 const session = require('express-session');
 const app = express();
 const port = 3000;
+const multer = require('multer');
+const upload = multer(); // You can configure multer here as needed
 
 // Create MySQL connection
 const connection = mysql.createConnection({
@@ -50,9 +52,10 @@ app.post('/api/stud-login', (req, res) => {
 			return res.status(401).json({ error: 'Invalid username or password' });
 		}
 		const user = results[0];
+
 		// Directly compare passwords
 		if (user.password === password) {
-			req.session.user = user.name; // Assuming you want to store the name
+			req.session.user = { uid: user.uid, name: user.name };
 			res.status(200).json({ message: 'Login successful' });
 		} else {
 			res.status(401).json({ error: 'Invalid username or password' });
@@ -75,9 +78,10 @@ app.post('/api/teach-login', (req, res) => {
 			return res.status(401).json({ error: 'Invalid username or password' });
 		}
 		const user = results[0];
+
 		// Directly compare passwords
 		if (user.password === password) {
-			req.session.user = user.username;
+			req.session.user = { uid: user.uid, name: user.name };
 			res.status(200).json({ message: 'Login successful' });
 		} else {
 			res.status(401).json({ error: 'Invalid username or password' });
@@ -95,13 +99,75 @@ app.get('/api/check-auth', (req, res) => {
 });
 
 app.get('/api/events', (req, res) => {
-	const sql = 'SELECT name, start_date, end_date, start_time, end_time, points, fee, venue, link FROM events';
-	connection.query(sql, (error, results) => {
+	const { filter } = req.query;
+
+	// Check if user UID is stored in session
+	if (!req.session.user) {
+		return res.status(401).json({ error: 'Not authenticated' });
+	}
+
+	const uid = req.session.user.uid;
+
+	// Base query excluding events already in submissions table for this user
+	let sql = `SELECT event_id, name, start_date, end_date, start_time, end_time, points, fee, venue, link
+			   FROM events
+			   WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)`;
+
+	// Modify SQL based on the filter parameter
+	switch (filter) {
+		case 'upcoming':
+			sql += ' AND start_date > CURDATE() ORDER BY start_date ASC;';
+			break;
+		case 'lastWeek':
+			sql += ' AND (start_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND start_date < CURDATE()) ORDER BY start_date ASC;';
+			break;
+		case 'lastMonth':
+			sql += ' AND (start_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND start_date < CURDATE()) ORDER BY start_date ASC;';
+			break;
+		case 'lastSixMonths':
+			sql += ' AND (start_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND start_date < CURDATE()) ORDER BY start_date ASC;';
+			break;
+		default:
+			sql += ' ORDER BY start_date ASC;';
+			break; // No additional filter for 'all'
+	}
+
+	// Execute the query
+	connection.query(sql, [uid], (error, results) => { // Pass uid once
 		if (error) {
 			console.error('Error fetching events:', error);
 			return res.status(500).json({ error: 'Failed to fetch events' });
 		}
 		res.json(results);
+	});
+});
+
+// Endpoint to handle file submissions with multer middleware
+app.post('/api/submit', upload.single('certificate'), (req, res) => {
+	const { event_id } = req.body;
+	const uid = req.session.user.uid;
+	const certificate = req.file ? req.file.buffer : null; // multer handles the file upload
+
+	// Check if event_id is provided
+	if (!event_id) {
+		return res.status(400).json({ error: 'Event ID is required.' });
+	}
+
+	// Check if a file was uploaded
+	if (!certificate) {
+		return res.status(400).json({ error: 'A certificate file must be uploaded.' });
+	}
+
+	console.log(`User ID: ${uid}, Event ID: ${event_id}, Certificate: ${!!certificate}`);
+
+	// Insert into submissions table
+	const sql = 'INSERT INTO submissions (uid, event_id, certificate) VALUES (?, ?, ?)';
+	connection.query(sql, [uid, event_id, certificate], (error, results) => {
+		if (error) {
+			console.error('Error submitting certificate:', error);
+			return res.status(500).json({ error: 'Submission failed' });
+		}
+		res.status(200).json({ message: 'Submission successful' });
 	});
 });
 

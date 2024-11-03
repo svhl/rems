@@ -1,61 +1,36 @@
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f5f5f5;
 	margin: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.logo img {
-	width: 50px;
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	cursor: pointer;
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
 }
 
 h1 {
-	font-size: 36px;
-	margin-top: 80px;
-	color: #333;
+	text-align: center;
 }
 
-.scrollable-list {
-	max-height: 60vh;
-	width: 80%;
-	overflow-y: scroll;
-	padding: 10px;
-	box-sizing: border-box;
+#filterDropdown {
+	display: block;
+	margin: 20px auto;
+}
+
+#eventsContainer {
+	margin: 20px;
+}
+
+.event {
 	background-color: #fff;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 15px;
+	margin-bottom: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.event-item {
-	padding: 20px;
-	border-bottom: 1px solid #ddd;
-}
-
-.event-item h2 {
-	margin: 0 0 10px;
+.event strong {
 	color: #333;
-	font-weight: bold;
 }
 
-.event-item p {
-	margin: 4px 0;
-	color: #666;
-}
-
-.event-item a {
-	display: inline-block;
-	margin-top: 10px;
-	color: #1a73e8;
-	text-decoration: none;
-}
-
-.event-item a:hover {
-	text-decoration: underline;
+.event span {
+	color: #555;
 }
 
