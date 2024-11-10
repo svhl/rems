@@ -1,80 +1,123 @@
 body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	overflow: hidden;
-	position: relative;
-	background: #402531;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: #402531;
+}
+
+.hvr-grow {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+}
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 #loginCard {
-	height: 60%;
-	width: 20%; 
-	padding: 48px 68px;
-	background: beige;
-	background-color: rgba(0, 0, 0, 0.7);
-	border-radius: 4px;
+    position: relative;
+    height: 40%;
+    width: 50%;
+    padding: 48px 68px;
+    background: beige;
+    background-color: beige;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+	transition: box-shadow 0.2s ease-in-out;
+}
+
+#loginCard:hover {
+	box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+#loginCard::before {
+	content: "";
+	position: absolute;
+	top: 10%; /* Adjusts the vertical start point */
+	bottom: 10%; /* Adjusts the vertical end point */
+	left: 40%; /* Slightly to the left of the center */
+	width: 1px; /* Thickness of the line */
+	background-color: white; /* Line color */
+	opacity: 0.2; /* Optional: makes the line slightly transparent */
 }
 
 h1 {
-	position: absolute; 
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -300%);
-	margin: 10;
-	margin-bottom: 10px;
-	word-wrap: break-word;
-	font-size: 40px;
-	color: #ffffff;	
+    position: absolute;
+    top: 35%;
+    left: 8%;
+	transform: translateY(-50%);
+    font-size: 50px;
+    color: #ffffff;
+    width: 25%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-right: 6%;
 }
 
 .inputField {
-	width: 100%;
-	padding: 15px;
-	color: #ffffff;
-	background: rgba(22, 22, 22, 0.7);
-	border-radius: 0.25rem;
-	border-width: 0.0625rem;
-	border-color: rgba(128, 128, 128, 0.7);
-	box-sizing: border-box;	
+    width: 100%;
+    padding: 15px;
+    color: #ffffff;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 0.25rem;
+    border-width: 0.0625rem;
+    border-color: rgba(128, 128, 128, 0.7);
+    box-sizing: border-box;
 }
 
 #username {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -100%);
-	width: 20%;
-	padding: 10px;
+    position: absolute;
+    top: 30%;
+    left: 51%;
+	height: 10%;
+    width: 40%;
+    padding: 20px;
 }
 
 #password {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, 50%);
-	width: 20%;
-	padding: 10px;
+    position: absolute;
+    top: 45%;
+    left: 51%;
+	height: 10%;
+    width: 40%;
+    padding: 20px;
 }
 
 button {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, 200%);
-	width: 20%;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+    position: absolute;
+    top: 60%;
+    right: 9%;
+    height: 10%;
+    width: 15%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #d8a75c;
+}
+
+button:hover {
+	background-color: #fac06a;
 }
 
 .logo {
-	position: absolute; /* Position it absolutely */
-	top: 12px; /* Distance from the top */
-	left: 12px; /* Distance from the left */
-	width: 50px; /* Set the width of the logo */
+	position: absolute; /* Keeps it absolutely positioned */
+	top: 2px; /* Align 10px from the top */
+	left: 2px; /* Align 10px from the left */
+	width: 42px; /* Fixed width to match the size in the first CSS */
 	height: auto; /* Maintain aspect ratio */
 }
+
 

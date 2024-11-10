@@ -4,12 +4,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Student Events</title>
-	<link rel="stylesheet" href="stud_events.css">
+	<link rel="stylesheet" href="stud_dashboard.css">
 </head>
-<body>
+<body>	
 	<h1>Available Events</h1>
-	<!-- Filter Dropdown -->
-	<label for="filterDropdown">Filter Events:</label>
 	<select id="filterDropdown">
 		<option value="all">All Events</option>
 		<option value="upcoming">Upcoming Events</option>
@@ -56,14 +54,15 @@
 							eventDiv.innerHTML = `
 								<strong>${event.name}</strong> <br>
 								${formatDate(event.start_date)} <br>
-								<span>Start Time: ${event.start_time}</span> <br>
+								<span>Start time: ${event.start_time}</span> <br>
 								${formatDate(event.end_date)} <br>
 								<span>End Time: ${event.end_time}</span> <br>
-								Points: ${event.points}, Fee: ${event.fee} <br>
-								Venue: ${event.venue} <br>
+								<span> Points: ${event.points} </span> <br>
+								<span> Fee: ${event.fee} </span> <br>
+								<span> Venue: ${event.venue} </span> <br>
 								<a href="${event.link}" target="_blank">Event Link</a> <br>
 								<input type="file" id="certificateInput-${event.event_id}">
-								<button onclick="submitCertificate(${event.event_id})">Upload Certificate</button>
+								<button id="upload" onclick="submitCertificate(${event.event_id})">Upload Certificate</button>
 							`;
 							eventsContainer.appendChild(eventDiv);
 						});

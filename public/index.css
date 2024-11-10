@@ -1,6 +1,6 @@
 body {
 	margin: 0;
-	background-color: #402531;
+	background-color: #130b0f;
 	color: white;
 	display: flex;
 	flex-direction: column;
@@ -24,18 +24,20 @@ header {
 	top: 0;
 	left: 0;
 	width: 100%;
-	padding: 20px;
+	padding: 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	box-sizing: border-box;
+	color: #0f0f0f;
+	background-color: #402531;
 }
 
 .logo {
 	position: absolute; /* Position it absolutely */
-	top: 20px; /* Distance from the top */
-	left: 20px; /* Distance from the left */
-	width: 50px; /* Set the width of the logo */
+	top: 10px; /* Distance from the top */
+	left: 10px; /* Distance from the left */
+	width: 42px; /* Set the width of the logo */
 	height: auto; /* Maintain aspect ratio */
 }
 
@@ -50,8 +52,8 @@ button {
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
-	background-color: #ffffff;
-	color: #000000;
+	background-color: #d8a75c;
+	color: #402531;
 	cursor: pointer;
 }
 
@@ -71,22 +73,60 @@ button {
 }
 
 button:hover {
-	background-color: #e6e6e6;
+	background-color: #fac06a;
 }
 
 main {
 	text-align: center;
 }
 
+@keyframes floatUph1 {
+	0% {
+	  top: 100px;  /* Initial position */
+	  opacity: 0;
+	}
+	100% {
+	  top: 80px;  /* Final position (move up) */
+	  opacity: 1;
+	}
+}
+
+@keyframes floatUph2 {
+	0% {
+	  top: 360px;  /* Initial position */
+	  opacity: 0;
+	}
+	100% {
+	  top: 340px;  /* Final position (move up) */
+	  opacity: 1;
+	}
+}
+
 h1 {
-	font-size: 64px;
+	font-size: 80px;
 	margin: 0;
+	color: #d8a75c;
+	text-align: left;
+	position: absolute; /* Position relative to nearest positioned ancestor */
+	left: 40px;
+	padding: 20px; /* Optional: Adds some padding around the text */
+	animation: floatUph1 0.5s ease-out forwards;
+	animation-delay: 0.2s;
+	opacity: 0;
 }
 
 h2 {
-	font-family: 'Arial', sans-serif;
-	font-size: 20px;
+	font-size: 22px;
+	font-family: sans-serif;
 	font-weight: normal;
-	margin: 10px 0 0;
+	margin: 0;
+	color: #ffffff;
+	text-align: left;
+	position: absolute; /* Position relative to nearest positioned ancestor */
+	left: 40px;
+	padding: 20px; /* Optional: Adds some padding around the text */
+	animation: floatUph2 0.5s ease-out forwards;
+	animation-delay: 0.8s;
+	opacity: 0;
 }
 
