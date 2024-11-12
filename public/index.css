@@ -130,3 +130,50 @@ h2 {
 	opacity: 0;
 }
 
+/* Footer styling */
+footer {
+    width: 100%;
+    padding: 5px 0;
+	font-family: sans-serif;
+    background-color: #402531;
+    color: #fff;
+    text-align: center;
+    margin-top: auto;
+    overflow: hidden; /* Ensures text hides when outside viewport */
+}
+
+/* Footer text with continuous scrolling animation */
+.footer-text p {
+    margin: 0;
+    font-size: 0.9em;
+    white-space: nowrap;
+    display: inline-block;
+    animation: scroll-left 15s linear infinite; /* Adjust duration to control scroll speed */
+    min-width: 65%; /* Ensure it spans the entire width of the footer */
+}
+
+/* Keyframes for scrolling left to right and restarting from left */
+@keyframes scroll-left {
+    0% {
+        transform: translateX(-100%); /* Start off the left side */
+    }
+    100% {
+        transform: translateX(100%); /* Move to the right side off the screen */
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .scrollable-list {
+        padding: 15px;
+    }
+
+    .event-item h2 {
+        font-size: 1.1em;
+    }
+}
+

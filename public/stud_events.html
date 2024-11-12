@@ -3,22 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Student Events</title>
+	<title>REMS | Events</title>
 	<link rel="stylesheet" href="stud_dashboard.css">
+	<link rel="icon" href="rajagiri.png" type="image/png">
 </head>
-<body>	
+<body>
+	<header>
+		<a href="index.html">
+			<img src="rajagiri.png" alt="Rajagiri Logo" class="logo hvr-grow" />
+		</a>
+		<div class="button-container">
+			<button onclick="window.location.href='stud_pending.html'">Pending Events</button>
+			<button onclick="window.location.href='stud_approved.html'">Approved Events</button>
+			<button id="logout" onclick="logout()">Logout</button>
+		</div>
+	</header>
 	<h1>Available Events</h1>
-	<select id="filterDropdown">
-		<option value="all">All Events</option>
-		<option value="upcoming">Upcoming Events</option>
-		<option value="lastWeek">Events in Last Week</option>
-		<option value="lastMonth">Events in Last Month</option>
-		<option value="lastSixMonths">Events in Last 6 Months</option>
-	</select>
+	<div id="filterContainer">
+		<select id="filterDropdown">
+			<option value="all">All Events</option>
+			<option value="upcoming">Upcoming events</option>
+			<option value="lastWeek">Events in last week</option>
+			<option value="lastMonth">Events in last month</option>
+			<option value="lastSixMonths">Events in last 6 months</option>
+		</select>
+	</div>
 	<!-- Events Container -->
 	<div id="eventsContainer">
 		<!-- Events will be dynamically loaded here -->
 	</div>
+	<footer>
+        <div class="footer-text">
+            <p>&copy; 2024 Rajagiri Event Management System. All rights reserved.</p>
+        </div>
+    </footer>
 	<script>
 		// Function to format date as "dd MMM yyyy"
 		function formatDate(dateString) {
@@ -53,16 +71,14 @@
 							eventDiv.classList.add('event');
 							eventDiv.innerHTML = `
 								<strong>${event.name}</strong> <br>
-								${formatDate(event.start_date)} <br>
-								<span>Start time: ${event.start_time}</span> <br>
-								${formatDate(event.end_date)} <br>
-								<span>End Time: ${event.end_time}</span> <br>
-								<span> Points: ${event.points} </span> <br>
-								<span> Fee: ${event.fee} </span> <br>
-								<span> Venue: ${event.venue} </span> <br>
-								<a href="${event.link}" target="_blank">Event Link</a> <br>
-								<input type="file" id="certificateInput-${event.event_id}">
-								<button id="upload" onclick="submitCertificate(${event.event_id})">Upload Certificate</button>
+								<span>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br>
+								<span>${event.start_time} to ${event.end_time}</span> <br>
+								<span>Points: ${event.points}</span> <br>
+								<span>Entry fee: ${event.fee}</span> <br>
+								<span>Venue: ${event.venue}</span> <br>
+								<a href="${event.link}" target="_blank">Event link</a> <br>
+								<input type="file" id="certificateInput-${event.event_id}" style="margin-top: 5px;">
+								<button id="upload" onclick="submitCertificate(${event.event_id})" style="margin-top: 5px;">Upload</button>
 							`;
 							eventsContainer.appendChild(eventDiv);
 						});
@@ -77,36 +93,57 @@
 			});
 		});
 		// Function to submit certificate
-function submitCertificate(event_id) {
-	console.log('Submitting certificate with Event ID:', event_id);
-	const input = document.querySelector(`#certificateInput-${event_id}`);
-	if (!input.files.length) { // Check if a file has been selected
-		alert('Please select a certificate file to upload.');
-		return; // Exit the function if no file is selected
-	}
-	
-	const formData = new FormData();
-	formData.append('event_id', event_id);  // Ensure event_id is included
-	formData.append('certificate', input.files[0]);  // Ensure a file is selected
-	
-	console.log('Submitting certificate with Event ID:', event_id); // Log event_id
-	console.log('Selected file:', input.files[0]); // Log the selected file for debugging
-
-	fetch('/api/submit', {
-		method: 'POST',
-		body: formData
-	})
-	.then(response => {
-		if (response.ok) {
-			alert('Certificate uploaded successfully.');
-			loadEvents(); // Reload events after submission
-		} else {
-			alert('Error uploading certificate: ' + response.statusText);
+		function submitCertificate(event_id) {
+		console.log('Submitting certificate with Event ID:', event_id);
+		const input = document.querySelector(`#certificateInput-${event_id}`);
+		
+		// Check if a file has been selected
+		if (!input.files.length) {
+			alert('Please select a certificate file to upload.');
+			return; // Exit the function if no file is selected
 		}
-	})
-	.catch(error => console.error('Error submitting certificate:', error));
-}
-	
+
+		const formData = new FormData();
+		formData.append('event_id', event_id); // Include event_id
+		formData.append('certificate', input.files[0]); // Include the selected file
+
+		fetch('/api/submit', {
+			method: 'POST',
+			body: formData
+		})
+		.then(async (response) => {
+			if (response.ok) {
+				alert('Certificate uploaded successfully.');
+				window.location.reload();
+			} else {
+				// Parse the response to get the custom error message
+				const errorData = await response.json();
+				alert('Error uploading certificate: ' + (errorData.error || response.statusText));
+			}
+		})
+		.catch(error => console.error('Error submitting certificate:', error));
+	}
+
+	// Function to handle logout
+	function logout() {
+			// Assuming you have a server-side route for logging out that clears the session or token
+			fetch('/api/logout', {
+				method: 'POST', // Or 'GET' depending on your backend logic
+			})
+			.then(response => {
+				if (response.ok) {
+					// Redirect to the homepage after logout
+					alert('Logged out successfully.');
+					window.location.href = 'index.html';
+				} else {
+					alert('Error logging out!');
+				}
+			})
+			.catch(error => {
+				console.error('Error during logout:', error);
+				alert('An error occurred while logging out.');
+			});
+	}
 
 	</script>
 </body>

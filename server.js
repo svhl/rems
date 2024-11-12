@@ -146,19 +146,24 @@ app.get('/api/events', (req, res) => {
 app.post('/api/submit', upload.single('certificate'), (req, res) => {
 	const { event_id } = req.body;
 	const uid = req.session.user.uid;
-	const certificate = req.file ? req.file.buffer : null; // multer handles the file upload
+
+	// Ensure a file was uploaded
+	if (!req.file) {
+		return res.status(400).json({ error: 'A certificate file must be uploaded.' });
+	}
+
+	// Check file type
+	const allowedTypes = ['image/jpeg', 'image/png'];
+	if (!allowedTypes.includes(req.file.mimetype)) {
+		return res.status(400).json({ error: 'Only JPG and PNG files are allowed.' });
+	}
+
+	const certificate = req.file.buffer; // multer handles the file upload as buffer data
 
 	// Check if event_id is provided
 	if (!event_id) {
 		return res.status(400).json({ error: 'Event ID is required.' });
 	}
-
-	// Check if a file was uploaded
-	if (!certificate) {
-		return res.status(400).json({ error: 'A certificate file must be uploaded.' });
-	}
-
-	console.log(`User ID: ${uid}, Event ID: ${event_id}, Certificate: ${!!certificate}`);
 
 	// Insert into submissions table
 	const sql = 'INSERT INTO submissions (uid, event_id, certificate) VALUES (?, ?, ?)';
@@ -171,6 +176,83 @@ app.post('/api/submit', upload.single('certificate'), (req, res) => {
 	});
 });
 
+app.get('/api/submitted-events', (req, res) => {
+	const { filter } = req.query;
+
+	// Check if user UID is stored in session
+	if (!req.session.user) {
+		return res.status(401).json({ error: 'Not authenticated' });
+	}
+
+	const uid = req.session.user.uid;
+
+	// Base query to fetch events that are in submissions for this user
+	let sql = `
+		SELECT e.event_id, e.name, e.start_date, e.end_date, 
+		       e.start_time, e.end_time, e.points, e.fee, 
+		       e.venue, e.link, s.certificate 
+		FROM events e
+		JOIN submissions s ON e.event_id = s.event_id
+		WHERE s.uid = ?
+	`;
+
+	// Modify SQL based on the filter parameter
+	switch (filter) {
+		case 'lastWeek':
+			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
+			break;
+		case 'lastMonth':
+			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
+			break;
+		case 'lastSixMonths':
+			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
+			break;
+		default:
+			sql += ' ORDER BY e.start_date ASC;';
+			break;
+	}
+
+	// Execute the query
+	connection.query(sql, [uid], (error, results) => {
+		if (error) {
+			console.error('Error fetching submitted events:', error);
+			return res.status(500).json({ error: 'Failed to fetch submitted events' });
+		}
+
+		// Map over results to prepare certificate data
+		const eventsWithCertificates = results.map(event => ({
+			...event,
+			// Convert certificate blob to a base64 string, if available
+			certificate: event.certificate ? `data:image/jpeg;base64,${event.certificate.toString('base64')}` : null
+		}));
+
+		res.json(eventsWithCertificates);
+	});
+});
+
+// Serve certificate image for viewing
+app.get('/api/certificate/:eventId', (req, res) => {
+	const { eventId } = req.params;
+	const uid = req.session.user.uid; // Get the user's ID from the session
+
+	const sql = `SELECT certificate FROM submissions WHERE event_id = ? AND uid = ?`;
+	connection.query(sql, [eventId, uid], (error, results) => {
+		if (error) {
+			console.error('Error fetching certificate:', error);
+			return res.status(500).json({ error: 'Failed to fetch certificate' });
+		}
+
+		if (results.length === 0 || !results[0].certificate) {
+			return res.status(404).json({ error: 'Certificate not found' });
+		}
+
+		// Send the image as inline to view it in the browser
+		res.setHeader('Content-Type', 'image/jpeg'); // Default to JPEG, adjust if you store the mime type
+		res.setHeader('Content-Disposition', 'inline'); // Display inline, not as download
+		res.send(results[0].certificate);
+	});
+});
+
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {
 	if (req.session.user) {
@@ -179,6 +261,18 @@ function isAuthenticated(req, res, next) {
 		res.status(401).json({ message: 'Unauthorized' });
 	}
 }
+
+app.post('/api/logout', (req, res) => {
+    // Destroy the session to log the user out
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to log out' });
+        }
+
+        // Send a response indicating the user has been logged out
+        res.status(200).json({ message: 'Logged out successfully' });
+    });
+});
 
 // Start the server
 app.listen(port, () => {
