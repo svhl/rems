@@ -55,6 +55,7 @@ button {
 	background-color: #d8a75c;
 	color: #402531;
 	cursor: pointer;
+	font-family: sans-serif;
 }
 
 #about {
@@ -104,6 +105,7 @@ main {
 
 h1 {
 	font-size: 80px;
+	font-family: serif;
 	margin: 0;
 	color: #d8a75c;
 	text-align: left;
@@ -117,8 +119,8 @@ h1 {
 
 h2 {
 	font-size: 22px;
-	font-family: sans-serif;
 	font-weight: normal;
+	font-family: sans-serif;
 	margin: 0;
 	color: #ffffff;
 	text-align: left;
@@ -145,6 +147,7 @@ footer {
 /* Footer text with continuous scrolling animation */
 .footer-text p {
     margin: 0;
+	font-family: sans-serif;
     font-size: 0.9em;
     white-space: nowrap;
     display: inline-block;

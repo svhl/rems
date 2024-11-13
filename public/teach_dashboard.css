@@ -13,14 +13,6 @@ h1 {
 	font-size: 40px;
 }
 
-#filterContainer {
-	display: flex;
-	justify-content: right; /* Center-aligns the dropdown */
-	margin-top: 10px; /* Space from the header */
-	margin-right: 20px;
-	margin-bottom: 20px; /* Space between dropdown and event grid */
-}
-
 #eventsContainer {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr); /* Three boxes per row */

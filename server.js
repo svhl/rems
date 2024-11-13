@@ -111,7 +111,8 @@ app.get('/api/events', (req, res) => {
 	// Base query excluding events already in submissions table for this user
 	let sql = `SELECT event_id, name, start_date, end_date, start_time, end_time, points, fee, venue, link
 			   FROM events
-			   WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)`;
+			   WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)
+			   AND event_id NOT IN (SELECT event_id FROM myevents WHERE uid = ?)`;
 
 	// Modify SQL based on the filter parameter
 	switch (filter) {
@@ -133,7 +134,7 @@ app.get('/api/events', (req, res) => {
 	}
 
 	// Execute the query
-	connection.query(sql, [uid], (error, results) => { // Pass uid once
+	connection.query(sql, [uid, uid], (error, results) => { // Pass uid once
 		if (error) {
 			console.error('Error fetching events:', error);
 			return res.status(500).json({ error: 'Failed to fetch events' });
@@ -177,8 +178,6 @@ app.post('/api/submit', upload.single('certificate'), (req, res) => {
 });
 
 app.get('/api/submitted-events', (req, res) => {
-	const { filter } = req.query;
-
 	// Check if user UID is stored in session
 	if (!req.session.user) {
 		return res.status(401).json({ error: 'Not authenticated' });
@@ -187,30 +186,15 @@ app.get('/api/submitted-events', (req, res) => {
 	const uid = req.session.user.uid;
 
 	// Base query to fetch events that are in submissions for this user
-	let sql = `
+	const sql = `
 		SELECT e.event_id, e.name, e.start_date, e.end_date, 
 		       e.start_time, e.end_time, e.points, e.fee, 
 		       e.venue, e.link, s.certificate 
 		FROM events e
 		JOIN submissions s ON e.event_id = s.event_id
 		WHERE s.uid = ?
+		ORDER BY e.start_date DESC;
 	`;
-
-	// Modify SQL based on the filter parameter
-	switch (filter) {
-		case 'lastWeek':
-			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
-			break;
-		case 'lastMonth':
-			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
-			break;
-		case 'lastSixMonths':
-			sql += ' AND (e.start_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND e.start_date < CURDATE()) ORDER BY e.start_date ASC;';
-			break;
-		default:
-			sql += ' ORDER BY e.start_date ASC;';
-			break;
-	}
 
 	// Execute the query
 	connection.query(sql, [uid], (error, results) => {
@@ -222,7 +206,73 @@ app.get('/api/submitted-events', (req, res) => {
 		// Map over results to prepare certificate data
 		const eventsWithCertificates = results.map(event => ({
 			...event,
-			// Convert certificate blob to a base64 string, if available
+			certificate: event.certificate ? `data:image/jpeg;base64,${event.certificate.toString('base64')}` : null
+		}));
+
+		res.json(eventsWithCertificates);
+	});
+});
+
+app.get('/api/approved-events', (req, res) => {
+	// Check if user UID is stored in session
+	if (!req.session.user) {
+	  return res.status(401).json({ error: 'Not authenticated' });
+	}
+  
+	const uid = req.session.user.uid;
+  
+	// Base query to fetch events that are in 'myevents' for this user
+	const sql = `
+	  SELECT e.event_id, e.name, e.start_date, e.end_date, 
+			 e.start_time, e.end_time, e.points, e.fee, 
+			 e.venue, e.link
+	  FROM events e
+	  JOIN myevents s ON e.event_id = s.event_id
+	  WHERE s.uid = ?
+	  ORDER BY e.start_date DESC;
+	`;
+  
+	// Execute the query
+	connection.query(sql, [uid], (error, results) => {
+	  if (error) {
+		console.error('Error fetching approved events:', error);
+		return res.status(500).json({ error: 'Failed to fetch approved events' });
+	  }
+  
+	  // Send the events in the response
+	  res.json(results);
+	});
+  });
+  
+
+app.get('/api/pending-events', (req, res) => {
+	// Check if user UID is stored in session
+	if (!req.session.user) {
+		return res.status(401).json({ error: 'Not authenticated' });
+	}
+
+	const uid = req.session.user.uid;
+
+	// SQL query to fetch pending events for the teacher
+	const sql = `
+		SELECT e.event_id, e.name, e.start_date, e.end_date, 
+		       e.start_time, e.end_time, e.points, e.fee, 
+		       e.venue, e.link, s.certificate, s.uid
+		FROM events e
+		JOIN submissions s ON e.event_id = s.event_id
+		ORDER BY e.start_date DESC;
+	`;
+
+	// Execute the query
+	connection.query(sql, [uid], (error, results) => {
+		if (error) {
+			console.error('Error fetching pending events:', error);
+			return res.status(500).json({ error: 'Failed to fetch pending events' });
+		}
+
+		// Map over results to prepare certificate data
+		const eventsWithCertificates = results.map(event => ({
+			...event,
 			certificate: event.certificate ? `data:image/jpeg;base64,${event.certificate.toString('base64')}` : null
 		}));
 
@@ -252,6 +302,109 @@ app.get('/api/certificate/:eventId', (req, res) => {
 		res.send(results[0].certificate);
 	});
 });
+
+// Serve certificate image for viewing
+app.get('/api/certificate/:eventId/:studentUid', (req, res) => {
+    const { eventId, studentUid } = req.params;
+
+    const sql = `SELECT certificate FROM submissions WHERE event_id = ? AND uid = ?`;
+    connection.query(sql, [eventId, studentUid], (error, results) => {
+        if (error) {
+            console.error('Error fetching certificate:', error);
+            return res.status(500).json({ error: 'Failed to fetch certificate' });
+        }
+
+        if (results.length === 0 || !results[0].certificate) {
+            return res.status(404).json({ error: 'Certificate not found' });
+        }
+
+        // Send the image as inline to view it in the browser
+        res.setHeader('Content-Type', 'image/jpeg'); // Default to JPEG, adjust if you store the mime type
+        res.setHeader('Content-Disposition', 'inline'); // Display inline, not as download
+        res.send(results[0].certificate);
+    });
+});
+
+app.post('/api/approve-event', (req, res) => {
+    // Check if the teacher is authenticated
+    if (!req.session.user) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const { event_id, uid } = req.body; // Get the uid and event_id from the request body
+
+    console.log('UID:', uid); // Debugging line
+    console.log('Event ID:', event_id); // Debugging line
+
+    if (!uid || !event_id) {
+        return res.status(400).json({ error: 'Invalid event or user data' });
+    }
+
+    // Now insert the event into the 'myevents' table without the certificate
+    const insertSql = `
+        INSERT INTO myevents (uid, event_id)
+        SELECT ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1 FROM myevents WHERE uid = ? AND event_id = ?
+        );
+    `;
+
+    connection.query(insertSql, [uid, event_id, uid, event_id], (insertError, insertResults) => {
+        if (insertError) {
+            console.error('Error inserting into myevents:', insertError);
+            return res.status(500).json({ error: 'Failed to approve event' });
+        }
+
+        // After inserting into 'myevents', delete the event from 'submissions'
+        const deleteSql = `
+            DELETE FROM submissions
+            WHERE event_id = ? AND uid = ?;
+        `;
+
+        connection.query(deleteSql, [event_id, uid], (deleteError, deleteResults) => {
+            if (deleteError) {
+                console.error('Error deleting from submissions:', deleteError);
+                return res.status(500).json({ error: 'Failed to remove event from submissions' });
+            }
+
+            res.status(200).json({ message: 'Event approved and removed from pending list successfully' });
+        });
+    });
+});
+
+
+
+app.post('/api/reject-event', (req, res) => {
+    // Check if the teacher is authenticated
+    if (!req.session.user) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const { event_id, uid } = req.body; // Get the uid and event_id from the request body
+
+    console.log('UID:', uid); // Debugging line
+    console.log('Event ID:', event_id); // Debugging line
+
+    if (!uid || !event_id) {
+        return res.status(400).json({ error: 'Invalid event or user data' });
+    }
+
+    const sql = `
+        DELETE FROM submissions
+        WHERE event_id = ? AND uid = ?;
+    `;
+
+    // Execute the query to reject the event
+    connection.query(sql, [event_id, uid], (error, results) => {
+        if (error) {
+            console.error('Error rejecting event:', error);
+            return res.status(500).json({ error: 'Failed to reject event' });
+        }
+
+        res.status(200).json({ message: 'Event rejected successfully' });
+    });
+});
+
 
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {

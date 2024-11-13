@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>REMS | Pending Events (Teacher)</title>
+	<link rel="stylesheet" href="stud_dashboard.css">
+	<link rel="icon" href="rajagiri.png" type="image/png">
+</head>
+<body>
+	<header>
+		<a href="index.html">
+			<img src="rajagiri.png" alt="Rajagiri Logo" class="logo hvr-grow" />
+		</a>
+		<div class="button-container">
+			<button onclick="window.location.href='teach_events.html'">Available Events</button>
+			<button onclick="window.location.href='teach_approved.html'">Approved Events</button>
+			<button id="logout" onclick="logout()">Logout</button>
+		</div>
+	</header>
+	<h1>Pending Events</h1>
+	
+	<!-- Events Container -->
+	<div id="eventsContainer">
+		<!-- Pending events will be dynamically loaded here -->
+	</div>
+
+	<footer>
+		<div class="footer-text">
+			<p>&copy; 2024 Rajagiri Event Management System. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script>
+		// Function to format date as "dd MMM yyyy"
+		function formatDate(dateString) {
+			const options = { day: '2-digit', month: 'short', year: 'numeric' };
+			return new Date(dateString).toLocaleDateString('en-GB', options);
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			// Check if the teacher is authenticated
+			fetch('/api/check-auth')
+				.then(response => {
+					if (response.status === 401) {
+						// Redirect to index.html if not authenticated
+						window.location.href = 'index.html';
+					} else if (response.ok) {
+						// Load pending events
+						loadPendingEvents();
+					}
+				})
+				.catch(error => {
+					console.error('Error checking authentication:', error);
+					window.location.href = 'index.html';
+				});
+
+			// Load pending events
+			function loadPendingEvents() {
+    fetch(`/api/pending-events`)
+        .then(response => {
+            if (!response.ok) {
+                console.error('Failed to fetch:', response.statusText);
+            }
+            return response.json();
+        })
+        .then(events => {
+            const eventsContainer = document.getElementById('eventsContainer');
+            eventsContainer.innerHTML = ''; // Clear previous events
+
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('event');
+
+                // Generate link for certificate, including student uid in the URL
+                const certificateLink = event.certificate 
+                    ? `<a href="/api/certificate/${event.event_id}/${event.uid}" target="_blank">View certificate</a>`
+                    : 'Certificate not available';
+
+                // Populate event details
+                eventDiv.innerHTML = `
+                    <strong>${event.name}</strong> <br>
+                    <span>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br>
+                    <span>${event.start_time} to ${event.end_time}</span> <br>
+                    <span>Points: ${event.points}</span> <br>
+                    <span>Entry fee: ${event.fee}</span> <br>
+                    <span>Venue: ${event.venue}</span> <br>
+                    <a href="${event.link}" target="_blank">Event link</a> <br>
+                    ${certificateLink}
+                    <br>
+                    <button class="approve" onclick="approveEvent(${event.event_id}, '${event.uid}')">Approve</button>
+                    <button class="reject" onclick="rejectEvent(${event.event_id}, '${event.uid}')">Reject</button>
+                `;
+
+                eventsContainer.appendChild(eventDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching pending events:', error));
+}
+		});
+
+		// Approve event function
+		function approveEvent(event_id, uid) {
+						fetch('/api/approve-event', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ event_id, uid }), // Make sure both event_id and uid are valid
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);  // Check the response data
+				if (data.message) {
+					alert(data.message); // Event approved successfully
+				} else {
+					alert(data.error); // Handle error
+				}
+			})
+			.catch(error => console.error('Error:', error));
+
+		}
+
+		// Reject event function
+		function rejectEvent(event_id, uid) {
+			fetch('/api/reject-event', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ event_id, uid }),
+			})
+			.then(response => {
+				if (response.ok) {
+					alert('Event rejected successfully!');
+					location.reload(); // Reload the page to reflect changes
+				} else {
+					alert('Error rejecting event!');
+				}
+			})
+			.catch(error => {
+				console.error('Error during rejection:', error);
+				alert('An error occurred while rejecting the event.');
+			});
+		}
+
+		// Function to handle logout
+		function logout() {
+			// Assuming you have a server-side route for logging out that clears the session or token
+			fetch('/api/logout', {
+				method: 'POST', // Or 'GET' depending on your backend logic
+			})
+			.then(response => {
+				if (response.ok) {
+					// Redirect to the homepage after logout
+					alert('Logged out successfully.');
+					window.location.href = 'index.html';
+				} else {
+					alert('Error logging out!');
+				}
+			})
+			.catch(error => {
+				console.error('Error during logout:', error);
+				alert('An error occurred while logging out.');
+			});
+		}
+	</script>
+</body>
+</html>

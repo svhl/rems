@@ -33,7 +33,7 @@
 					body: JSON.stringify({ username, password })
 				});
 				if (response.ok) {
-					window.location.href = 'teach_events.html';
+					window.location.href = 'teach_pending.html';
 				} else {
 					const result = await response.json();
 					alert(result.error || 'Login failed. Please check your username and password.');
