@@ -33,6 +33,14 @@ h1 {
 	font-family: sans-serif;
 }
 
+#filterContainer {
+	display: flex;
+	justify-content: right; /* Center-aligns the dropdown */
+	margin-top: 10px; /* Space from the header */
+	margin-right: 20px;
+	margin-bottom: 20px; /* Space between dropdown and event grid */
+}
+
 .event a {
 	color: #2095f2; /* Change to your preferred color */
 	text-decoration: none; /* Removes the underline */
@@ -103,6 +111,7 @@ button {
 	color: #402531;
 	cursor: pointer;
 }
+
 
 #logout {
 	padding: 10px 20px;

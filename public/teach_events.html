@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMS | Events</title>
+    <link rel="stylesheet" href="teach_dashboard.css">
+    <link rel="icon" href="rajagiri.png" type="image/png">
+</head>
+<body>
+<header>
+    <a href="index.html">
+        <img src="rajagiri.png" alt="Rajagiri Logo" class="logo hvr-grow" />
+    </a>
+    <div class="button-container">
+        <button onclick="window.location.href='teach_pending.html'">Pending Events</button>
+        <button onclick="window.location.href='teach_add.html'">Add Events</button>
+        <button id="logout" onclick="logout()">Logout</button>
+    </div>
+</header>
+<h1>Events</h1>
+<div id="filterContainer">
+    <select id="filterDropdown">
+        <option value="all">All events</option>
+        <option value="upcoming">Upcoming events</option>
+        <option value="lastWeek">Events in last week</option>
+        <option value="lastMonth">Events in last month</option>
+        <option value="lastSixMonths">Events in last 6 months</option>
+    </select>
+</div>
+
+<!-- Events Container -->
+<div id="eventsContainer">
+    <!-- Events will be dynamically loaded here -->
+</div>
+
+<footer>
+    <div class="footer-text">
+        <p>&copy; 2024 Rajagiri Event Management System. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+// Function to format date as "dd MMM yyyy"
+function formatDate(dateString) {
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if the user is authenticated
+    fetch('/api/check-auth')
+        .then(response => {
+            if (response.status === 401) {
+                // Redirect to index.html if not authenticated
+                window.location.href = 'index.html';
+            } else if (response.ok) {
+                // Load events with the selected filter
+                loadEvents();
+            }
+        })
+        .catch(error => {
+            console.error('Error checking authentication:', error);
+            window.location.href = 'index.html';
+        });
+
+    // Load events with optional filtering
+    function loadEvents(filter = 'all') {
+        fetch(`/api/events?filter=${filter}`)
+            .then(response => response.json())
+            .then(events => {
+                const eventsContainer = document.getElementById('eventsContainer');
+                eventsContainer.innerHTML = ''; // Clear previous events
+
+                events.forEach(event => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.classList.add('event');
+                    eventDiv.innerHTML = `
+                        <strong>${event.name}</strong> <br>
+                        <span>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br>
+                        <span>${event.start_time} to ${event.end_time}</span> <br>
+                        <span>Points: ${event.points}</span> <br>
+                        <span>Entry fee: ${event.fee}</span> <br>
+                        <span>Venue: ${event.venue}</span> <br>
+                        <a href="${event.link}" target="_blank">Event link</a> <br>
+                        <button onclick="deleteEvent(${event.event_id})" style="margin-top: 5px;">Delete Event</button>
+                    `;
+                    eventsContainer.appendChild(eventDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    }
+
+    // Dropdown filter logic
+    const filterDropdown = document.getElementById('filterDropdown');
+    filterDropdown.addEventListener('change', () => {
+        const selectedFilter = filterDropdown.value;
+        loadEvents(selectedFilter); // Load events based on selected filter
+    });
+});
+
+// Function to handle event deletion
+function deleteEvent(event_id) {
+    console.log('Deleting event with Event ID:', event_id);
+
+    fetch('/api/delete-event', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ event_id }) // Send the event_id in the request body
+    })
+    .then(async (response) => {
+        if (response.ok) {
+            alert('Event deleted successfully.');
+            window.location.reload(); // Reload the page to refresh the events list
+        } else {
+            const errorData = await response.json();
+            alert('Error deleting event: ' + (errorData.error || response.statusText));
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting event:', error);
+        alert('An error occurred while deleting the event.');
+    });
+}
+
+// Function to handle logout
+function logout() {
+    fetch('/api/logout', {
+        method: 'POST', // Or 'GET' depending on your backend logic
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Logged out successfully.');
+            window.location.href = 'index.html';
+        } else {
+            alert('Error logging out!');
+        }
+    })
+    .catch(error => {
+        console.error('Error during logout:', error);
+        alert('An error occurred while logging out.');
+    });
+}
+</script>
+</body>
+</html>
