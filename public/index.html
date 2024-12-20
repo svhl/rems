@@ -1,33 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="index.css" />
-	<link rel="icon" href="rajagiri.png" type="image/png">
-	<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-	<title>REMS | Home</title>
-</head>
-<body>
-	<div id="particles-js"></div>
-	<script src="particles.js"></script>
-	<header>
-		<img src="rajagiri.png" alt="Rajagiri Logo" class="logo	" />
-		<div class="button-container">
-			<button id="about" onclick="window.location.href='about_us.html'">About Us</button>
-			<button onclick="window.location.href='stud_login.html'">Student Login</button>
-			<button onclick="window.location.href='teach_login.html'">Teacher Login</button>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="index.css" />
+		<link rel="icon" href="rajagiri.png" type="image/png" />
+		<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+		<title>REMS | Home</title>
+	</head>
+	<body>
+		<div id="particles-js"></div>
+		<script src="particles.js"></script>
+		<!-- Sidebar -->
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="sidebar-header">
+				<img src="rajagiri.png" alt="Rajagiri Logo" class="logo" />
+				<span class="sidebar-title">REMS</span>
+			</div>
+			<nav class="sidebar-nav">
+				<button onclick="window.location.href='about_us.html'">
+					About Us
+				</button>
+				<button onclick="window.location.href='stud_login.html'">
+					Student Login
+				</button>
+				<button onclick="window.location.href='teach_login.html'">
+					Teacher Login
+				</button>
+			</nav>
 		</div>
-	</header>
-	<main>
-		<h1>Rajagiri Event<br>Management System</h1>
-		<h2>REMS helps students keep track of events at and outside Rajagiri<br>View events, upload certificates and gain activity points - all on one platform</h2>
-	</main>
-	<footer>
-        <div class="footer-text">
-            <p>&copy; 2024 Rajagiri Event Management System. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
 
+		<!-- Hamburger Menu -->
+		<div id="hamburger-menu" onclick="toggleMenu()">☰</div>
+
+		<main>
+			<h1>Rajagiri Event<br />Management System</h1>
+			<h2>
+				REMS helps students keep track of events at and outside
+				Rajagiri<br />View events, upload certificates and gain activity
+				points - all on one platform
+			</h2>
+		</main>
+
+		<footer>
+			<div class="footer-text">
+				<p>
+					&copy; 2024 Rajagiri Event Management System. All rights
+					reserved.
+				</p>
+			</div>
+		</footer>
+
+		<script>
+			function toggleMenu() {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// Toggle the sidebar open/close
+				sidebar.classList.toggle("open");
+			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// Check if the click is outside the sidebar and not on the hamburger menu
+				if (
+					!sidebar.contains(event.target) &&
+					!hamburgerMenu.contains(event.target)
+				) {
+					// Close the sidebar if it's open
+					sidebar.classList.remove("open");
+				}
+			});
+		</script>
+	</body>
+</html>

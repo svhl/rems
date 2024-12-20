@@ -1,55 +1,71 @@
+/* General body styling */
 body {
 	margin: 0;
 	background-color: #130b0f;
 	color: white;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 	height: 100vh;
 	overflow: hidden;
 }
 
+/* Particles background */
 #particles-js {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
-	z-index: -1; /* Ensure it's behind other content */
+	z-index: -1;
 }
 
-header {
-	position: absolute;
+/* Sidebar styling */
+#sidebar {
+	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100%;
-	padding: 10px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	box-sizing: border-box;
-	color: #0f0f0f;
+	height: 100%;
+	width: 250px;
 	background-color: #402531;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	box-sizing: border-box;
+	transition: transform 0.3s ease;
+	z-index: 1;
+}
+
+#sidebar.open {
+	transform: translateX(0);
+}
+
+.sidebar-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
 .logo {
-	position: absolute; /* Position it absolutely */
-	top: 10px; /* Distance from the top */
-	left: 10px; /* Distance from the left */
-	width: 42px; /* Set the width of the logo */
-	height: auto; /* Maintain aspect ratio */
+	width: 42px;
+	height: auto;
+	margin-right: 10px;
 }
 
-.button-container {
+.sidebar-title {
+	font-size: 1.5em;
+	font-family: serif;
+	color: #d8a75c;
+}
+
+.sidebar-nav {
 	display: flex;
+	flex-direction: column;
 	gap: 10px;
-	justify-content: flex-end;
-	width: 100%;
 }
 
-button {
-	padding: 10px 20px;
+.sidebar-nav button {
+	padding: 10px;
 	border: none;
 	border-radius: 5px;
 	background-color: #d8a75c;
@@ -58,125 +74,81 @@ button {
 	font-family: sans-serif;
 }
 
-#about {
-	padding: 10px 20px;
-	border: 2px solid #ffffff;
-	border-radius: 5px;
-	background-color: transparent;
-	color: #ffffff;
-	cursor: pointer;
-}
-
-#about:hover {
-	border: 2px solid #e6e6e6;
-	background-color: #e6e6e6;
-	color: #000000;
-}
-
-button:hover {
+.sidebar-nav button:hover {
 	background-color: #fac06a;
 }
 
+/* Hamburger menu styling */
+#hamburger-menu {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	font-size: 1.5em;
+	color: white;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	display: none;
+}
+
+/* Main content styling */
 main {
+	margin-left: 250px;
+	padding: 20px;
 	text-align: center;
-}
-
-@keyframes floatUph1 {
-	0% {
-	  top: 100px;  /* Initial position */
-	  opacity: 0;
-	}
-	100% {
-	  top: 80px;  /* Final position (move up) */
-	  opacity: 1;
-	}
-}
-
-@keyframes floatUph2 {
-	0% {
-	  top: 360px;  /* Initial position */
-	  opacity: 0;
-	}
-	100% {
-	  top: 340px;  /* Final position (move up) */
-	  opacity: 1;
-	}
-}
-
-h1 {
-	font-size: 80px;
-	font-family: serif;
-	margin: 0;
-	color: #d8a75c;
-	text-align: left;
-	position: absolute; /* Position relative to nearest positioned ancestor */
-	left: 40px;
-	padding: 20px; /* Optional: Adds some padding around the text */
-	animation: floatUph1 0.5s ease-out forwards;
-	animation-delay: 0.2s;
-	opacity: 0;
-}
-
-h2 {
-	font-size: 22px;
-	font-weight: normal;
-	font-family: sans-serif;
-	margin: 0;
-	color: #ffffff;
-	text-align: left;
-	position: absolute; /* Position relative to nearest positioned ancestor */
-	left: 40px;
-	padding: 20px; /* Optional: Adds some padding around the text */
-	animation: floatUph2 0.5s ease-out forwards;
-	animation-delay: 0.8s;
-	opacity: 0;
+	transition: margin-left 0.3s ease;
 }
 
 /* Footer styling */
 footer {
-    width: 100%;
-    padding: 5px 0;
+	width: 100%;
+	padding: 5px 0;
 	font-family: sans-serif;
-    background-color: #402531;
-    color: #fff;
-    text-align: center;
-    margin-top: auto;
-    overflow: hidden; /* Ensures text hides when outside viewport */
+	background-color: #402531;
+	color: #fff;
+	text-align: center;
+	margin-top: auto;
+	overflow: hidden;
 }
 
-/* Footer text with continuous scrolling animation */
 .footer-text p {
-    margin: 0;
-	font-family: sans-serif;
-    font-size: 0.9em;
-    white-space: nowrap;
-    display: inline-block;
-    animation: scroll-left 15s linear infinite; /* Adjust duration to control scroll speed */
-    min-width: 65%; /* Ensure it spans the entire width of the footer */
+	margin: 0;
+	font-size: 0.9em;
+	white-space: nowrap;
+	display: inline-block;
+	animation: scroll-left 15s linear infinite;
+	min-width: 65%;
 }
 
-/* Keyframes for scrolling left to right and restarting from left */
 @keyframes scroll-left {
-    0% {
-        transform: translateX(-100%); /* Start off the left side */
-    }
-    100% {
-        transform: translateX(100%); /* Move to the right side off the screen */
-    }
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
 }
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    h1 {
-        font-size: 1.5em;
-    }
+	#sidebar {
+		transform: translateX(-100%);
+	}
 
-    .scrollable-list {
-        padding: 15px;
-    }
+	#hamburger-menu {
+		display: block;
+	}
 
-    .event-item h2 {
-        font-size: 1.1em;
-    }
+	main {
+		margin-left: 0;
+		padding: 10px;
+	}
+
+	h1 {
+		font-size: 1.5em;
+	}
+
+	h2 {
+		font-size: 1em;
+	}
 }
-
