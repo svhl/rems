@@ -6,14 +6,17 @@ body {
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
-	overflow: hidden;
+	width: 100vw;
+	overflow-x: hidden; /* Prevent horizontal scrolling */
+	overflow-y: auto;
+	box-sizing: border-box;
 }
 
 /* Particles background */
 #particles-js {
-	position: absolute;
-	width: 100%;
-	height: 100%;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
 	top: 0;
 	left: 0;
 	z-index: -1;
@@ -25,17 +28,20 @@ h1 {
 	color: #d8a75c;
 	text-align: left;
 	margin-left: 40px;
-	margin-top: 20px;
+	margin-top: 8px;
+	padding-right: 20px;
 }
 
 h2 {
-	font-size: 22px;
+	font-size: 1em;
 	font-weight: normal;
 	font-family: "Poppins", sans-serif;
 	color: #ffffff;
 	text-align: left;
 	margin-left: 40px;
-	margin-top: -30px;
+	margin-top: -40px;
+	padding-right: 20px;
+	line-height: 2.3;
 }
 
 /* Sidebar styling */
@@ -43,16 +49,16 @@ h2 {
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 100%;
+	height: 100vh;
 	width: 250px;
 	background-color: #402531;
 	color: white;
 	display: flex;
 	flex-direction: column;
-	padding: 20px;
+	padding: 0px;
 	box-sizing: border-box;
 	transition: transform 0.3s ease;
-	z-index: 3;
+	z-index: 2;
 }
 
 #sidebar.open {
@@ -68,13 +74,17 @@ h2 {
 .logo {
 	width: 32px;
 	height: auto;
-	margin-right: 10px;
+	margin-left: 20px;
+	margin-top: 15px;
 }
 
 .sidebar-title {
 	font-size: 1.5em;
-	font-family: serif;
+	font-family: "Cinzel", serif;
+	font-weight: bold;
 	color: #d8a75c;
+	margin-left: 10px;
+	margin-top: 18px;
 }
 
 .sidebar-nav {
@@ -84,52 +94,66 @@ h2 {
 }
 
 .sidebar-nav button {
-	padding: 10px;
 	border: none;
-	border-radius: 5px;
 	background-color: #402531;
 	color: #ffffff;
 	cursor: pointer;
 	font-family: "Merriweather", serif;
 	text-align: left;
-	font-size: 1em;
+	font-size: 0.9em;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
 }
 
 .sidebar-nav button:hover {
 	background-color: #fac06a;
+	color: #402531;
+}
+
+/* Ensure the icon and text are aligned horizontally */
+.sidebar-nav button .material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+	margin-right: 10px; /* Space between the icon and text */
+	vertical-align: text-bottom; /* Aligns the icon with the text */
+	font-size: 20px;
 }
 
 /* Hamburger menu styling */
 #hamburger-menu {
-	position: fixed;
-	top: 20px;
-	left: 20px;
+	margin-top: 15px;
+	margin-left: 25px;
 	font-size: 1.5em;
 	color: white;
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
 	display: none;
-	z-index: 2;
+	z-index: 1;
 }
 
 /* Main content styling */
 main {
 	margin-left: 250px;
 	transition: margin-left 0.3s ease;
+	width: 100vw; /* Prevent horizontal overflow */
+	overflow-x: hidden;
+	box-sizing: border-box;
 }
 
 /* Footer styling */
 footer {
-	width: 100%;
-	padding: 5px 0;
-	font-family: sans-serif;
+	width: 100vw;
+	padding: 5px;
+	font-family: "Poppins", sans-serif;
 	background-color: #402531;
 	color: #fff;
 	text-align: center;
 	margin-top: auto;
-	overflow: hidden;
 	z-index: 2;
+	box-sizing: border-box;
+	overflow-x: hidden;
 }
 
 .footer-text p {
@@ -138,15 +162,15 @@ footer {
 	white-space: nowrap;
 	display: inline-block;
 	animation: scroll-left 20s linear infinite;
-	min-width: 85%;
+	min-width: 90vw;
 }
 
 @keyframes scroll-left {
 	0% {
-		transform: translateX(-100%);
+		transform: translateX(100%);
 	}
 	100% {
-		transform: translateX(100%);
+		transform: translateX(-100%);
 	}
 }
 
@@ -166,14 +190,19 @@ footer {
 	}
 
 	h1 {
-		font-size: 1.5em;
+		font-size: 2.5em;
+		margin-left: 15px;
+		padding-right: 15px;
 	}
 
 	h2 {
 		font-size: 1em;
+		margin-left: 15px;
+		margin-top: -30px;
+		padding-right: 15px;
 	}
 
 	.footer-text p {
-		min-width: 100%;
+		min-width: 100vw;
 	}
 }
