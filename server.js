@@ -1,25 +1,30 @@
+require("dotenv").config(); // Add this line at the top
 const express = require("express");
 const mysql = require("mysql2");
 const session = require("express-session");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use environment variable for port if available
 const multer = require("multer");
 const upload = multer(); // You can configure multer here as needed
 
 // Create MySQL connection
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "helloworld",
-    database: "rajagiri",
+    host: process.env.DB_HOST, // Use environment variable
+    user: process.env.DB_USER, // Use environment variable
+    password: process.env.DB_PASSWORD, // Use environment variable
+    database: process.env.DB_NAME, // Use environment variable
+    port: process.env.DB_PORT, // Ensure the port is set correctly
+    ssl: {
+        rejectUnauthorized: false, // Accept self-signed certificates
+    },
 });
 
 connection.connect((err) => {
     if (err) {
-        console.error("Error connecting to the database:", err.stack);
+        console.error("Error connecting to the database:", err);
         return;
     }
-    console.log("Connected to the database.");
+    console.log("Connected to the MySQL database.");
 });
 
 // Middleware to parse JSON bodies
@@ -116,9 +121,9 @@ app.get("/api/events", (req, res) => {
 
     // Base query excluding events already in submissions table for this user
     let sql = `SELECT event_id, name, start_date, end_date, start_time, end_time, points, fee, venue, link
-			   FROM events
-			   WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)
-			   AND event_id NOT IN (SELECT event_id FROM myevents WHERE uid = ?)`;
+               FROM events
+               WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)
+               AND event_id NOT IN (SELECT event_id FROM myevents WHERE uid = ?)`;
 
     // Modify SQL based on the filter parameter
     switch (filter) {
@@ -202,14 +207,14 @@ app.get("/api/submitted-events", (req, res) => {
 
     // Base query to fetch events that are in submissions for this user
     const sql = `
-		SELECT e.event_id, e.name, e.start_date, e.end_date, 
-		       e.start_time, e.end_time, e.points, e.fee, 
-		       e.venue, e.link, s.certificate 
-		FROM events e
-		JOIN submissions s ON e.event_id = s.event_id
-		WHERE s.uid = ?
-		ORDER BY e.start_date DESC;
-	`;
+        SELECT e.event_id, e.name, e.start_date, e.end_date, 
+               e.start_time, e.end_time, e.points, e.fee, 
+               e.venue, e.link, s.certificate 
+        FROM events e
+        JOIN submissions s ON e.event_id = s.event_id
+        WHERE s.uid = ?
+        ORDER BY e.start_date DESC;
+    `;
 
     // Execute the query
     connection.query(sql, [uid], (error, results) => {
@@ -244,14 +249,14 @@ app.get("/api/approved-events", (req, res) => {
 
     // Base query to fetch events that are in 'myevents' for this user
     const sql = `
-	  SELECT e.event_id, e.name, e.start_date, e.end_date, 
-			 e.start_time, e.end_time, e.points, e.fee, 
-			 e.venue, e.link
-	  FROM events e
-	  JOIN myevents s ON e.event_id = s.event_id
-	  WHERE s.uid = ?
-	  ORDER BY e.start_date DESC;
-	`;
+      SELECT e.event_id, e.name, e.start_date, e.end_date, 
+             e.start_time, e.end_time, e.points, e.fee, 
+             e.venue, e.link
+      FROM events e
+      JOIN myevents s ON e.event_id = s.event_id
+      WHERE s.uid = ?
+      ORDER BY e.start_date DESC;
+    `;
 
     // Execute the query
     connection.query(sql, [uid], (error, results) => {
