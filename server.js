@@ -7,8 +7,8 @@ const port = process.env.PORT || 3000; // Use environment variable for port if a
 const multer = require("multer");
 const upload = multer(); // You can configure multer here as needed
 
+// Create MySQL connection
 const connection = mysql.createConnection({
-<<<<<<< HEAD
     host: process.env.DB_HOST, // Use environment variable
     user: process.env.DB_USER, // Use environment variable
     password: process.env.DB_PASSWORD, // Use environment variable
@@ -25,22 +25,7 @@ connection.connect((err) => {
         return;
     }
     console.log("Connected to the MySQL database.");
-=======
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
 });
-
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err.stack);
-    return;
-  }
-  console.log('Connected to the database');
->>>>>>> 3c8bd011eb38836f6360d3625e20216b11593071
-});
-
 
 // Middleware to parse JSON bodies
 app.use(express.json());
