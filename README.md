@@ -4,6 +4,31 @@ A platform to manage events for students, teachers, and event organizers at Raja
 
 Link : https://rems-9u27.onrender.com/
 
+## Login
+
+Use these sample login details to access both student and teacher logins.
+
+### Students Table
+
+| uid     | name           | password      | points |
+| ------- | -------------- | ------------- | ------ |
+| STU0001 | Alice Johnson  | password123   | 50     |
+| STU0002 | Bob Smith      | securePass456 | 75     |
+| STU0003 | Charlie Brown  | qwerty789     | 40     |
+| STU0004 | Diana Prince   | wonderPass321 | 85     |
+| STU0005 | Eve Adams      | eveSecurePass | 60     |
+
+### Teachers Table
+
+| uid   | password       |
+| ----- | -------------- |
+| T0001 | password123    |
+| T0002 | securePass2025 |
+| T0003 | teachMeMore!   |
+| T0004 | passwordX$123  |
+| T0005 | Edu$Power2025  |
+
+
 ## About REMS
 
 REMS allows students to view events and upload certificates for activity point approval to teachers. Teachers can add, delete events and assign activity points for the event certificates uploaded by the students, if approved.
