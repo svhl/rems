@@ -2,7 +2,7 @@
 
 A platform to manage events for students, teachers, and event organizers at Rajagiri.
 
-Link : https://rems-9u27.onrender.com/
+Link : https://rems.zapto.org/
 
 ## Login
 
