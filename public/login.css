@@ -1,127 +1,180 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background: #402531;
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.hvr-grow {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-property: transform;
-    transition-property: transform;
-    cursor: pointer;
-}
-.hvr-grow:hover,
-.hvr-grow:focus,
-.hvr-grow:active {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
+/* Set background color and font */
+body, html {
+  height: 100%; /* Ensure body and html take up full height */
+  background: #402531;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
+/* Style the login card */
 #loginCard {
-    position: relative;
-    height: 40%;
-    width: 50%;
-    padding: 48px 68px;
-    background: beige;
-    background-color: beige;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
-	transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px 20px; /* Increased top and bottom padding */
+  border-radius: 5px;
+  width: 750px;
+  max-height: 90%;
+  max-width: 90%;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#loginCard:hover {
-	box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.5);
-    transform: translateY(-5px);
-}
-
-#loginCard::before {
-	content: "";
-	position: absolute;
-	top: 10%; /* Adjusts the vertical start point */
-	bottom: 10%; /* Adjusts the vertical end point */
-	left: 40%; /* Slightly to the left of the center */
-	width: 1px; /* Thickness of the line */
-	background-color: white; /* Line color */
-	opacity: 0.2; /* Optional: makes the line slightly transparent */
-}
-
+/* Style the heading */
 h1 {
-    position: absolute;
-    font-family: serif;
-    top: 35%;
-    left: 8%;
-	transform: translateY(-50%);
-    font-size: 50px;
-    color: #ffffff;
-    width: 25%;
-    padding-top: 10%;
-    padding-bottom: 10%;
-    padding-right: 6%;
+  font-size: 2.5em;
+  font-family: "Merriweather", serif;
+  margin-bottom: 30px;
+  color: #ffffff;
+  margin-left: 30px;
+  width: 100px;
 }
 
+/* Style input fields */
 .inputField {
+  width: 320px;
+  height: 40px;
+  padding: 10px;
+  color: #ffffff;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 0.25rem;
+  border-width: 0.0625rem;
+  border-color: rgba(128, 128, 128, 0.7);
+  box-sizing: border-box;
+  font-size: 0.75em;
+  font-family: "Poppins", sans-serif;
+  margin-right: 30px;
+  margin-left: auto;
+}
+
+/* Style the submit button */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  background-color: #d8a75c;
+  font-size: 0.75em;
+  font-family: "Poppins", sans-serif;
+  margin-right: 30px;
+  margin-left: auto;
+}
+
+/* Chrome-specific CSS */
+@supports (-webkit-appearance: none) {
+  h1 {
+    transform: translateY(52px);
+  }
+
+  .inputField {
+    margin-top: -10px;
+    transform: translateY(-62px);
+  }
+
+  button {
+    margin-top: -10px;
+    transform: translateY(-62px);
+  }
+}
+
+/* Firefox-specific CSS */
+@-moz-document url-prefix() {
+  h1 {
+    transform: translateY(65px);
+  }
+
+  .inputField {
+    margin-top: 7px;
+    transform: translateY(-67px);
+  }
+
+  button {
+    margin-top: 7px;
+    transform: translateY(-67px);
+  }
+}
+
+/* Hover effect for button */
+button:hover {
+  background-color: #fac06a;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 900px) {
+  #loginCard {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px; /* Increased top and bottom padding */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    margin: 0 20px;
+  }
+
+  /* Style the heading */
+  h1 {
+    font-size: 2em;
+    font-family: "Merriweather", serif;
+    margin-bottom: 30px;
+    color: #ffffff;
+    text-align: center;
+    margin-left: 0px;
+    width: unset;
+    transform: translateY(20px);
+  }
+
+  /* Style input fields */
+  .inputField {
     width: 100%;
-    padding: 15px;
     color: #ffffff;
     background: rgba(22, 22, 22, 0.7);
     border-radius: 0.25rem;
     border-width: 0.0625rem;
     border-color: rgba(128, 128, 128, 0.7);
     box-sizing: border-box;
-}
+    font-size: 0.8em;
+    font-family: "Poppins", sans-serif;
+    transform: translateY(30px);
+  }
 
-#username {
-    position: absolute;
-    top: 30%;
-    left: 51%;
-	height: 10%;
-    width: 40%;
-    padding: 20px;
-}
-
-#password {
-    position: absolute;
-    top: 45%;
-    left: 51%;
-	height: 10%;
-    width: 40%;
-    padding: 20px;
-}
-
-button {
-    position: absolute;
-    font-family: sans-serif;
-    top: 60%;
-    right: 9%;
-    height: 10%;
-    width: 15%;
+  /* Style the submit button */
+  button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 110px;
+    margin-right: 0;
     background-color: #d8a75c;
+    font-size: 0.8em;
+    font-family: "Poppins", sans-serif;
+    transform: translateY(30px);
+  }
+
+  @supports (-webkit-appearance: none) {
+    h1 {
+      transform: translateY(10px);
+    }
+  }
+  
+  /* Firefox-specific CSS */
+  @-moz-document url-prefix() {
+    h1 {
+      transform: translateY(20px)
+    }
+  }
 }
-
-button:hover {
-	background-color: #fac06a;
-}
-
-.logo {
-	position: absolute; /* Keeps it absolutely positioned */
-	top: 2px; /* Align 10px from the top */
-	left: 2px; /* Align 10px from the left */
-	width: 42px; /* Fixed width to match the size in the first CSS */
-	height: auto; /* Maintain aspect ratio */
-}
-
-
+ 
