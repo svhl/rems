@@ -19,10 +19,11 @@ body {
 	top: 0;
 	left: 0;
 	z-index: -1;
+	pointer-events: none;
 }
 
 h1 {
-	font-size: 5em;
+	font-size: 5rem;
 	font-family: "Cinzel", serif;
 	color: #d8a75c;
 	text-align: left;
@@ -33,7 +34,7 @@ h1 {
 }
 
 h2 {
-	font-size: 1em;
+	font-size: 1rem;
 	font-weight: normal;
 	font-family: "Poppins", sans-serif;
 	color: #ffffff;
@@ -161,15 +162,6 @@ main {
 	box-sizing: border-box;
 }
 
-@keyframes scroll-left {
-	0% {
-		transform: translateX(100%);
-	}
-	100% {
-		transform: translateX(-100%);
-	}
-}
-
 /* Responsive adjustments */
 @media (max-width: 900px) {
 	#sidebar {
@@ -195,11 +187,7 @@ main {
 	h2 {
 		font-size: 1em;
 		margin-left: 15px;
-		margin-top: -15px;
-	}
-
-	.footer-text p {
-		min-width: 100vw;
+		margin-top: 30px;
 	}
 }
 
