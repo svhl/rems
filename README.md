@@ -1,50 +1,90 @@
 # Rajagiri Event Management System
 
-A platform to manage events for students, teachers, and event organizers at Rajagiri.
+Simplify event management and activity point tracking for students and teachers at Rajagiri
 
-Link : https://rems.zapto.org/
+## Features
 
-## Login
+REMS offers improved event management over the current system at Rajagiri by addressing shortcomings such as
 
-Use these sample login details to access both student and teacher logins.
+❌ Event information is entered manually during certificate submission
 
-### Students Table
+❌ Each submission requires manual entry of activity points by teachers
 
-| uid     | name           | password      | points |
-| ------- | -------------- | ------------- | ------ |
-| STU0001 | Alice Johnson  | password123   | 50     |
-| STU0002 | Bob Smith      | securePass456 | 75     |
-| STU0003 | Charlie Brown  | qwerty789     | 40     |
-| STU0004 | Diana Prince   | wonderPass321 | 85     |
-| STU0005 | Eve Adams      | eveSecurePass | 60     |
+❌ Unoptimized design for mobile devices
 
-### Teachers Table
+However, REMS provides a better user experience while maintaining functionality.
 
-| uid   | password       |
-| ----- | -------------- |
-| T0001 | password123    |
-| T0002 | securePass2025 |
-| T0003 | teachMeMore!   |
-| T0004 | passwordX$123  |
-| T0005 | Edu$Power2025  |
+✅ Database of event info and activity points present to reduce manual input
 
+✅ Dashboard for viewing past and upcoming events
 
-## About REMS
+✅ Responsive user interface for both desktop and mobile
 
-REMS allows students to view events and upload certificates for activity point approval to teachers. Teachers can add, delete events and assign activity points for the event certificates uploaded by the students, if approved.
+## Tech stack
 
-## Hosting
-The version present in the "hosting" branch is the one currently hosted.
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
-The Frontend and nodeJS were hosted on [render](https://render.com/).
+## Screenshots
 
-The MySQL Database was hosted on [aiven](https://aiven.io/).
+## Live hosting
 
-Due to the free tier hosting, the severs timeout after 15 mins. It takes approx 1 minute for the servers to be online again after a timeout.
+The frontend and Node.js are hosted on [Render](https://render.com/), and the MySQL database is hosted on [Aiven](https://aiven.io/).
 
-## About the Devs
+The site can be viewed at [rems.hopto.org](https://rems.hopto.org).
 
-Muhammed S. Suhail | [GitHub](https://github.com/svhl)\
-Deril Jose Thirunilath | [GitHub](https://github.com/deriljose)\
-Juan Jude Pereira | [GitHub](https://github.com/juanpereiira)\
+> [!IMPORTANT]
+> The site may take ~1 min to load.
+>
+> Refer below for login credentials.
+
+### Student login
+
+| username | password |
+| -------- | -------- |
+| u0001    | u0001    |
+| u0002    | u0002    |
+| u0003    | u0003    |
+
+### Teacher login
+
+| username | password |
+| -------- | -------- |
+| t0001    | t0001    |
+| t0002    | t0002    |
+| t0003    | t0003    |
+
+## Self-hosting
+
+### Prerequisites
+
+[Node.js](https://nodejs.org/en/download) and [MySQL](https://dev.mysql.com/downloads/mysql/) should be installed. Configure MySQL username as `root` and password as `password`. Run the commands within [database.txt](https://github.com/svhl/rems/blob/main/database.txt) in MySQL. Then, clone the repo and install the required modules.
+
+```
+git clone https://github.com/svhl/rems
+cd rems
+npm install
+```
+
+### Running
+
+Start the server by running
+
+```
+node server.js
+```
+
+The site can be viewed at [http://localhost:3000](http://localhost:3000).
+
+## Developers
+
+Muhammed S. Suhail | [GitHub](https://github.com/svhl)
+
+Deril Jose Thirunilath | [GitHub](https://github.com/deriljose)
+
+Juan Jude Pereira | [GitHub](https://github.com/juanpereiira)
+
 Geevar Saji Kuriakose | [GitHub](https://github.com/Geevar12)
+
+## Copyright
+
+REMS is not officially associated with Rajagiri. All copyrights belong to their respective owners.

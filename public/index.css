@@ -5,7 +5,7 @@ body {
 	color: white;
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
+	max-height: 100vh;
 	width: 100vw;
 	box-sizing: border-box;
 	overflow: auto;
@@ -19,10 +19,11 @@ body {
 	top: 0;
 	left: 0;
 	z-index: -1;
+	pointer-events: none;
 }
 
 h1 {
-	font-size: 5em;
+	font-size: 5rem;
 	font-family: "Cinzel", serif;
 	color: #d8a75c;
 	text-align: left;
@@ -33,7 +34,7 @@ h1 {
 }
 
 h2 {
-	font-size: 1em;
+	font-size: 1rem;
 	font-weight: normal;
 	font-family: "Poppins", sans-serif;
 	color: #ffffff;
@@ -41,6 +42,7 @@ h2 {
 	margin-left: 40px;
 	margin-top: -30px;
 	padding-right: 20px;
+	padding-bottom: 10px;
 }
 
 h2 p {
@@ -52,7 +54,7 @@ h2 p {
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 100vh;
+	height: 100%;
 	width: 250px;
 	background-color: #402531;
 	color: white;
@@ -72,6 +74,18 @@ h2 p {
 	display: flex;
 	align-items: center;
 	margin-bottom: 20px;
+}
+
+.sidebar-footer {
+	display: flex;
+	align-items: left;
+	margin-top: auto;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+	font-family: "Poppins", sans-serif;
+	font-size: 0.9em;
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .logo {
@@ -146,41 +160,6 @@ main {
 	transition: margin-left 0.3s ease;
 	width: calc(100vw - 250px); /* Prevent horizontal overflow */
 	box-sizing: border-box;
-	min-height: 100vh;
-}
-
-/* Footer styling */
-footer {
-	width: 100vw;
-	height: 34px;
-	padding: 20px;
-	font-family: "Poppins", sans-serif;
-	background-color: #402531;
-	color: #fff;
-	text-align: center;
-	margin-top: auto;
-	z-index: 2;
-	box-sizing: border-box;
-	overflow-x: hidden;
-	position: relative;
-}
-
-.footer-text p {
-	margin: 0;
-	font-size: 0.9em;
-	white-space: nowrap;
-	display: inline-block;
-	animation: scroll-left 20s linear infinite;
-	min-width: 90vw;
-}
-
-@keyframes scroll-left {
-	0% {
-		transform: translateX(100%);
-	}
-	100% {
-		transform: translateX(-100%);
-	}
 }
 
 /* Responsive adjustments */
@@ -208,10 +187,12 @@ footer {
 	h2 {
 		font-size: 1em;
 		margin-left: 15px;
-		margin-top: -15px;
+		margin-top: 30px;
 	}
+}
 
-	.footer-text p {
-		min-width: 100vw;
+@media (max-width: 500px) {
+	h1 {
+		font-size: 2em;
 	}
 }

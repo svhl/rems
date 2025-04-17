@@ -1,31 +1,157 @@
 body {
 	margin: 0;
-	font-family: sans-serif;
 	background-color: #130b0f;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	max-height: 100vh;
+	width: 100vw;
+	box-sizing: border-box;
+	overflow: auto;
 }
 
 h1 {
-	font-family: serif;
-	text-align: left;
-	margin-left: 20px;
+	font-size: 3em;
+	font-family: "Merriweather", serif;
 	color: #d8a75c;
-	margin-top: 100px;
-	font-size: 40px;
+	text-align: left;
+	margin-left: 26px;
+	margin-top: 34px;
+	padding-right: 20px;
+	width: 65vw;
+}
+
+/* Sidebar styling */
+#sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 250px;
+	background-color: #402531;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 0px;
+	box-sizing: border-box;
+	transition: transform 0.3s ease;
+	z-index: 2;
+}
+
+#sidebar.open {
+	transform: translateX(0);
+}
+
+.sidebar-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.sidebar-footer {
+	display: flex;
+	align-items: left;
+	margin-top: auto;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+	font-family: "Poppins", sans-serif;
+	font-size: 0.9em;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.logo {
+	width: 32px;
+	height: auto;
+	margin-left: 20px;
+	margin-top: 15px;
+}
+
+.sidebar-title {
+	font-size: 1.5em;
+	font-family: "Cinzel", serif;
+	font-weight: bold;
+	color: #d8a75c;
+	margin-left: 10px;
+	margin-top: 18px;
+}
+
+.sidebar-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.sidebar-nav button {
+	border: none;
+	background-color: #402531;
+	color: #ffffff;
+	cursor: pointer;
+	font-family: "Merriweather", serif;
+	text-align: left;
+	font-size: 0.9em;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+}
+
+.sidebar-nav button:hover {
+	background-color: #fac06a;
+	color: #402531;
+}
+
+/* Ensure the icon and text are aligned horizontally */
+.sidebar-nav button .material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+	margin-right: 10px; /* Space between the icon and text */
+	padding-left: 5px;
+	vertical-align: text-bottom; /* Aligns the icon with the text */
+	font-size: 20px;
+}
+
+#highlight {
+	background-color: #fac06a;
+	color: #402531;
+	cursor: default;
+}
+
+#logout {
+	color: #fac06a;
+}
+
+#logout:hover {
+	color: #402531;
+}
+
+/* Hamburger menu styling */
+#hamburger-menu {
+	margin-top: 15px;
+	margin-left: 25px;
+	width: 20px;
+	font-size: 1.5em;
+	color: white;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	display: none;
+	z-index: 1;
+	position: relative;
+	padding-bottom: 10px;
 }
 
 #filterContainer {
 	display: flex;
 	justify-content: right; /* Center-aligns the dropdown */
-	margin-top: 10px; /* Space from the header */
-	margin-right: 20px;
+	margin-right: 25px;
 	margin-bottom: 20px; /* Space between dropdown and event grid */
 }
 
 #eventsContainer {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr); /* Three boxes per row */
+	/*grid-template-columns: repeat(3, 1fr); /* Three boxes per row */
 	gap: 20px; /* Space between boxes */
-	padding: 20px;
+	padding: 25px;
 }
 
 .event {
@@ -38,7 +164,9 @@ h1 {
 	flex-direction: column;
 	justify-content: space-between;
 	line-height: 1.5;
-	font-family: sans-serif;
+	max-width: 400px;
+	font-family: "Poppins", sans-serif;
+	font-size: 1rem;
 }
 
 .event a {
@@ -48,6 +176,8 @@ h1 {
 
 .event strong {
 	color: #d8a75c;
+	font-size: 1.2rem;
+	padding-bottom: 5px;
 }
 
 .event span {
@@ -58,7 +188,7 @@ h1 {
 	padding: 2px 11px;
 	border: 2px solid #ffffff;
 	font-size: 12px;
-	border-radius: 5px;
+	border-radius: 4px;
 	background-color: transparent;
 	color: #ffffff;
 	cursor: pointer;
@@ -73,126 +203,50 @@ h1 {
 	color: #000000;
 }
 
-header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	padding: 10px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+/* Main content styling */
+main {
+	margin-left: 250px;
+	transition: margin-left 0.3s ease;
+	width: calc(100vw - 250px); /* Prevent horizontal overflow */
 	box-sizing: border-box;
-	color: #0f0f0f;
-	background-color: #402531;
-}
-
-.logo {
-	position: absolute; /* Position it absolutely */
-	top: 10px; /* Distance from the top */
-	left: 10px; /* Distance from the left */
-	width: 42px; /* Set the width of the logo */
-	height: auto; /* Maintain aspect ratio */
-}
-
-.button-container {
-	display: flex;
-	gap: 10px;
-	justify-content: flex-end;
-	width: 100%;
-}
-
-button {
-	font-family: sans-serif;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	background-color: #d8a75c;
-	color: #402531;
-	cursor: pointer;
-}
-
-#logout {
-	padding: 10px 20px;
-	border: 2px solid #ffffff;
-	border-radius: 5px;
-	background-color: transparent;
-	color: #ffffff;
-	cursor: pointer;
-}
-
-#logout:hover {
-	border: 2px solid #e6e6e6;
-	background-color: #e6e6e6;
-	color: #000000;
-}
-
-button:hover {
-	background-color: #fac06a;
-}
-
-.hvr-grow {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-property: transform;
-    transition-property: transform;
-	cursor: pointer;
-}
-.hvr-grow:hover,
-.hvr-grow:focus,
-.hvr-grow:active {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-/* Footer styling */
-footer {
-    width: 100%;
-    padding: 5px 0;
-	font-family: sans-serif;
-    background-color: #402531;
-    color: #fff;
-    text-align: center;
-    margin-top: auto;
-    overflow: hidden; /* Ensures text hides when outside viewport */
-}
-
-/* Footer text with continuous scrolling animation */
-.footer-text p {
-    margin: 0;
-    font-size: 0.9em;
-    white-space: nowrap;
-    display: inline-block;
-    animation: scroll-left 15s linear infinite; /* Adjust duration to control scroll speed */
-    min-width: 65%; /* Ensure it spans the entire width of the footer */
-}
-
-/* Keyframes for scrolling left to right and restarting from left */
-@keyframes scroll-left {
-    0% {
-        transform: translateX(-100%); /* Start off the left side */
-    }
-    100% {
-        transform: translateX(100%); /* Move to the right side off the screen */
-    }
 }
 
 /* Responsive adjustments */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 1.5em;
-    }
+@media (max-width: 900px) {
+	#sidebar {
+		transform: translateX(-100%);
+	}
 
-    .scrollable-list {
-        padding: 15px;
-    }
+	#hamburger-menu {
+		display: block;
+	}
 
-    .event-item h2 {
-        font-size: 1.1em;
-    }
+	main {
+		margin-left: 0;
+		padding: 10px;
+		width: 100vw;
+	}
+
+	h1 {
+		font-size: 2.5em;
+		margin-left: 15px;
+		margin-top: -20px;
+	}
+
+	h2 {
+		font-size: 1em;
+		margin-left: 15px;
+		margin-top: -15px;
+	}
+
+	#eventsContainer {
+		gap: 15px; /* Space between boxes */
+		padding: 15px;
+	}
+}
+
+@media (max-width: 520px) {
+	h1 {
+		font-size: 2em;
+	}
 }

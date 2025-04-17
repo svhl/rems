@@ -1,0 +1,135 @@
+/* Reset some default styles */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Set background color and font */
+body {
+	background: #402531;
+	font-family: Arial, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+}
+
+/* Style the login card */
+#loginCard {
+	background-color: rgba(0, 0, 0, 0.7);
+	padding: 20px 20px; /* Increased top and bottom padding */
+	border-radius: 5px;
+	width: 750px;
+	max-height: 90%;
+	max-width: 90%;
+	margin: 0 20px;
+	display: flex; /* Use flexbox */
+	flex-direction: column; /* Stack children vertically */
+	justify-content: center; /* Center children vertically */
+}
+
+/* Style the heading */
+h1 {
+	font-size: 2.5em;
+	font-family: "Merriweather", serif;
+	margin-bottom: 30px;
+	color: #ffffff;
+	margin-left: 30px;
+	transform: translateY(62px);
+	width: 100px;
+}
+
+/* Style input fields */
+.inputField {
+	width: 320px;
+	height: 40px;
+	padding: 10px;
+	color: #ffffff;
+	background: rgba(22, 22, 22, 0.7);
+	border-radius: 0.25rem;
+	border-width: 0.0625rem;
+	border-color: rgba(128, 128, 128, 0.7);
+	box-sizing: border-box;
+	/*margin: 5px 0;*/
+	font-size: 0.75em;
+	font-family: "Poppins", sans-serif;
+	margin-right: 30px;
+	margin-left: auto;
+	transform: translateY(-67px);
+}
+
+/* Style the submit button */
+button {
+	padding: 10px 20px;
+	/*margin-top: 5px;*/
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 120px;
+	height: 40px;
+	background-color: #d8a75c;
+	font-size: 0.75em;
+	font-family: "Poppins", sans-serif;
+	margin-right: 30px;
+	margin-left: auto;
+	transform: translateY(-67px);
+}
+
+/* Hover effect for button */
+button:hover {
+	background-color: #fac06a;
+}
+
+@media (max-width: 900px) {
+	#loginCard {
+		background-color: rgba(0, 0, 0, 0.7);
+		padding: 50px 20px; /* Increased top and bottom padding */
+		border-radius: 5px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		width: 90%;
+		max-width: 400px;
+		text-align: center;
+		margin: 0 20px;
+	}
+	
+	/* Style the heading */
+	h1 {
+		font-size: 2em;
+		font-family: "Merriweather", serif;
+		margin-bottom: 30px;
+		color: #ffffff;
+		text-align: center;
+		margin-left: 0px;
+		width: unset;
+		transform: translateY(30px);
+	}
+	
+	/* Style input fields */
+	.inputField {
+		width: 100%;
+		color: #ffffff;
+		background: rgba(22, 22, 22, 0.7);
+		border-radius: 0.25rem;
+		border-width: 0.0625rem;
+		border-color: rgba(128, 128, 128, 0.7);
+		box-sizing: border-box;
+		font-size: 0.8em;
+		font-family: "Poppins", sans-serif;
+		transform: translateY(30px);
+	}
+	
+	/* Style the submit button */
+	button {
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		width: 100%;
+		background-color: #d8a75c;
+		font-size: 0.8em;
+		font-family: "Poppins", sans-serif;
+		transform: translateY(30px);
+	}
+}

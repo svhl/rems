@@ -6,38 +6,89 @@
 	<title>REMS | Events</title>
 	<link rel="stylesheet" href="stud_dashboard.css">
 	<link rel="icon" href="rajagiri.png" type="image/png">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Cinzel"
+		rel="stylesheet"
+	/>
+	<link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+	/>
 </head>
 <body>
-	<header>
-		<a href="index.html">
-			<img src="rajagiri.png" alt="Rajagiri Logo" class="logo hvr-grow" />
-		</a>
-		<div class="button-container">
-			<button onclick="window.location.href='stud_pending.html'">Pending Events</button>
-			<button onclick="window.location.href='stud_approved.html'">Approved Events</button>
-			<button id="logout" onclick="logout()">Logout</button>
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<div class="sidebar-header">
+			<img src="rajagiri.png" alt="Rajagiri Logo" class="logo" />
+			<span class="sidebar-title">REMS</span>
 		</div>
-	</header>
-	<h1>Available Events</h1>
-	<div id="filterContainer">
-		<select id="filterDropdown">
-			<option value="all">All events</option>
-			<option value="upcoming">Upcoming events</option>
-			<option value="lastWeek">Events in last week</option>
-			<option value="lastMonth">Events in last month</option>
-			<option value="lastSixMonths">Events in last 6 months</option>
-		</select>
+		<nav class="sidebar-nav">
+			<button id="highlight">
+				<span class="material-symbols-outlined">calendar_today</span>
+				Available Events
+			</button>
+			<button onclick="window.location.href='stud_pending.html'">
+				<span class="material-symbols-outlined">schedule</span>
+				Pending Events
+			</button>
+			<button onclick="window.location.href='stud_approved.html'">
+				<span class="material-symbols-outlined">
+					done_all</span
+				>
+				Approved Events
+			</button>
+			<button id="logout" onclick="window.location.href='about_us.html'">
+				<span class="material-symbols-outlined">logout</span>
+				Logout
+			</button>
+		</nav>
+		<span class="sidebar-footer">REMS is not officially associated with Rajagiri</span>
 	</div>
-	<!-- Events Container -->
-	<div id="eventsContainer">
-		<!-- Events will be dynamically loaded here -->
+
+	<!-- Hamburger Menu -->
+	<div id="hamburger-menu" onclick="toggleMenu()">
+		<span class="material-symbols-outlined">menu</span>
 	</div>
-	<footer>
-        <div class="footer-text">
-            <p>&copy; 2024 Rajagiri Event Management System. All rights reserved.</p>
-        </div>
-    </footer>
+
+	<main>
+		<h1>Available Events</h1>
+		<div id="filterContainer">
+			<select id="filterDropdown">
+				<option value="all">All events</option>
+				<option value="upcoming">Upcoming events</option>
+				<option value="lastWeek">Events in last week</option>
+				<option value="lastMonth">Events in last month</option>
+				<option value="lastSixMonths">Events in last 6 months</option>
+			</select>
+		</div>
+		<!-- Events Container -->
+		<div id="eventsContainer">
+			<!-- Events will be dynamically loaded here -->
+		</div>
+	</main>
 	<script>
+		function toggleMenu() {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// Toggle the sidebar open/close
+				sidebar.classList.toggle("open");
+			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// Check if the click is outside the sidebar and not on the hamburger menu
+				if (
+					!sidebar.contains(event.target) &&
+					!hamburgerMenu.contains(event.target)
+				) {
+					// Close the sidebar if it's open
+					sidebar.classList.remove("open");
+				}
+			});
+
 		// Function to format date as "dd MMM yyyy"
 		function formatDate(dateString) {
 			const options = { day: '2-digit', month: 'short', year: 'numeric' };
@@ -71,12 +122,12 @@
 							eventDiv.classList.add('event');
 							eventDiv.innerHTML = `
 								<strong>${event.name}</strong> <br>
-								<span>${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br>
-								<span>${event.start_time} to ${event.end_time}</span> <br>
+								<span>Date: ${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br>
+								<span>Time: ${event.start_time} to ${event.end_time}</span> <br>
 								<span>Points: ${event.points}</span> <br>
-								<span>Entry fee: ${event.fee}</span> <br>
+								<span>Entry fee: $${event.fee}</span> <br>
 								<span>Venue: ${event.venue}</span> <br>
-								<a href="${event.link}" target="_blank">Event link</a> <br>
+								<a href="${event.link}" target="_blank">More details</a> <br>
 								<input type="file" id="certificateInput-${event.event_id}" style="margin-top: 5px;">
 								<button id="upload" onclick="submitCertificate(${event.event_id})" style="margin-top: 5px;">Upload</button>
 							`;
