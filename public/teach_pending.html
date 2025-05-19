@@ -4,45 +4,104 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>REMS | Pending Events</title>
-		<link rel="stylesheet" href="teach_dashboard.css" />
+		<link rel="stylesheet" href="dashboard.css" />
 		<link rel="icon" href="rajagiri.png" type="image/png" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter&family=Merriweather&family=Cinzel"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+		/>
 	</head>
-	<body>
-		<header>
-			<a href="index.html">
-				<img
-					src="rajagiri.png"
-					alt="Rajagiri Logo"
-					class="logo hvr-grow"
-				/>
-			</a>
-			<div class="button-container">
-				<button onclick="window.location.href='teach_events.html'">
-					All Events
-				</button>
-				<button onclick="window.location.href='teach_add.html'">
-					Add Events
-				</button>
-				<button id="logout" onclick="logout()">Logout</button>
-			</div>
-		</header>
-		<h1>Pending Events</h1>
 
-		<!-- Events Container -->
-		<div id="eventsContainer">
-			<!-- Pending events will be dynamically loaded here -->
+	<body>
+		<div
+			id="loading"
+			style="
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			"
+		>
+			<p>Loading...</p>
 		</div>
 
-		<footer>
-			<div class="footer-text">
-				<p>
-					&copy; 2024 Rajagiri Event Management System. All rights
-					reserved.
-				</p>
+		<div id="mainContent" style="display: none">
+			<div id="sidebar">
+				<div class="sidebar-header">
+					<img src="rajagiri.png" alt="Rajagiri Logo" class="logo" />
+					<span class="sidebar-title">REMS</span>
+				</div>
+
+				<nav class="sidebar-nav">
+					<button id="highlight">
+						<span class="material-symbols-outlined">schedule</span>
+						Pending Events
+					</button>
+
+					<button onclick="window.location.href='teach_events.html'">
+						<span class="material-symbols-outlined"
+							>calendar_today</span
+						>
+						All Events
+					</button>
+
+					<button onclick="window.location.href='teach_add.html'">
+						<span class="material-symbols-outlined">add</span>
+						Add Event
+					</button>
+
+					<button id="logout" onclick="logout()">
+						<span class="material-symbols-outlined">logout</span>
+						Logout
+					</button>
+				</nav>
+
+				<span class="sidebar-footer"
+					>REMS is not officially associated with Rajagiri</span
+				>
 			</div>
-		</footer>
+
+			<div id="hamburger-menu" onclick="toggleMenu()">
+				<span class="material-symbols-outlined">menu</span>
+			</div>
+
+			<main>
+				<h1>Pending Events</h1>
+
+				<div id="eventsContainer">
+					<!-- Pending events will be dynamically loaded here -->
+				</div>
+			</main>
+		</div>
 
 		<script>
+			function toggleMenu() {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// toggle sidebar open/close
+				// hidden on desktop
+				sidebar.classList.toggle("open");
+			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// check if mouse click outside sidebar and not on hamburger menu
+				if (
+					!sidebar.contains(event.target) &&
+					!hamburgerMenu.contains(event.target)
+				) {
+					// close sidebar if open
+					sidebar.classList.remove("open");
+				}
+			});
+
 			// Function to format date as "dd MMM yyyy"
 			function formatDate(dateString) {
 				const options = {
@@ -57,14 +116,16 @@
 			}
 
 			document.addEventListener("DOMContentLoaded", function () {
-				// Check if the teacher is authenticated
 				fetch("/api/check-auth")
 					.then((response) => {
 						if (response.status === 401) {
-							// Redirect to index.html if not authenticated
 							window.location.href = "index.html";
 						} else if (response.ok) {
-							// Load pending events
+							document.getElementById("loading").style.display =
+								"none";
+							document.getElementById(
+								"mainContent"
+							).style.display = "block";
 							loadPendingEvents();
 						}
 					})
@@ -73,7 +134,6 @@
 						window.location.href = "index.html";
 					});
 
-				// Load pending events
 				function loadPendingEvents() {
 					fetch(`/api/pending-events`)
 						.then((response) => {
@@ -99,28 +159,29 @@
 									? `<a href="/api/certificate/${event.event_id}/${event.uid}" target="_blank">View certificate</a>`
 									: "Certificate not available";
 
-								// Populate event details, including student name and UID
 								eventDiv.innerHTML = `
-                    <strong>${event.name}</strong> <br>
-					<span>Student: ${event.student_name}</span> <br>
-					<span> UID: ${event.uid}</span> <br>
-                    <span>${formatDate(event.start_date)} to ${formatDate(
+								<strong>${event.name}</strong> <br>
+								<span><b>Name:</b> ${event.student_name}</span> <br>
+								<span><b>UID:</b> ${event.uid}</span> <br>
+								<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(
 									event.end_date
 								)}</span> <br>
-                    <span>${event.start_time} to ${event.end_time}</span> <br>
-                    <span>Points: ${event.points}</span> <br>
-                    <span>Entry fee: ${event.fee}</span> <br>
-                    <span>Venue: ${event.venue}</span> <br>
-                    <a href="${event.link}" target="_blank">Event link</a> <br>
-					${certificateLink}
-                    <br>
-                    <button class="approve" onclick="approveEvent(${
-						event.event_id
-					}, '${event.uid}')">Approve</button>
-                    <button class="reject" onclick="rejectEvent(${
-						event.event_id
-					}, '${event.uid}')">Reject</button>
-                `;
+								<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br>
+								<span><b>Points:</b> ${event.points}</span> <br>
+								<span><b>Entry fee:</b> \$${event.fee}</span> <br>
+								<span><b>Venue:</b> ${event.venue}</span> <br>
+								<a href="${event.link}" target="_blank">${event.link}</a> <br>
+								${certificateLink}
+								<br>
+								<div id="actionbuttons">
+    								<button class="approve" onclick="approveEvent(${event.event_id}, '${
+									event.uid
+								}')">Approve</button>
+    								<button class="reject" onclick="rejectEvent(${event.event_id}, '${
+									event.uid
+								}')">Reject</button>
+								</div>
+								`;
 
 								eventsContainer.appendChild(eventDiv);
 							});
@@ -134,7 +195,6 @@
 				}
 			});
 
-			// Approve event function
 			function approveEvent(event_id, uid) {
 				fetch("/api/approve-event", {
 					method: "POST",
@@ -145,7 +205,6 @@
 				})
 					.then((response) => response.json())
 					.then((data) => {
-						console.log(data); // Check the response data
 						if (data.message) {
 							alert(data.message); // Event approved successfully
 							window.location.reload();
@@ -167,7 +226,7 @@
 				})
 					.then((response) => {
 						if (response.ok) {
-							alert("Event rejected successfully!");
+							alert("Event rejected successfully.");
 							location.reload(); // Reload the page to reflect changes
 						} else {
 							alert("Error rejecting event!");
@@ -179,15 +238,12 @@
 					});
 			}
 
-			// Function to handle logout
 			function logout() {
-				// Assuming you have a server-side route for logging out that clears the session or token
 				fetch("/api/logout", {
-					method: "POST", // Or 'GET' depending on your backend logic
+					method: "POST",
 				})
 					.then((response) => {
 						if (response.ok) {
-							// Redirect to the homepage after logout
 							alert("Logged out successfully.");
 							window.location.href = "index.html";
 						} else {

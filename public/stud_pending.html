@@ -147,13 +147,13 @@
 								eventDiv.innerHTML = `
 								<strong>${event.name}</strong> <br>
 
-								<span>Date: ${formatDate(event.start_date)} to ${formatDate(
+								<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(
 									event.end_date
 								)}</span> <br>
-								<span>Time: ${event.start_time} to ${event.end_time}</span> <br>
-								<span>Points: ${event.points}</span> <br>
-								<span>Entry fee: $${event.fee}</span> <br>
-								<span>Venue: ${event.venue}</span> <br>
+								<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br>
+								<span><b>Points:</b> ${event.points}</span> <br>
+								<span><b>Entry fee:</b> $${event.fee}</span> <br>
+								<span><b>Venue:</b> ${event.venue}</span> <br>
 								<a href="${event.link}" target="_blank">${event.link}</a> <br>
 								${certificateLink}
 							`;
