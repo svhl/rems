@@ -10,6 +10,14 @@ body {
 	overflow: auto;
 }
 
+#loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	font-family: "Inter", sans-serif;
+}
+
 h1 {
 	font-size: 3em;
 	font-family: "Merriweather", serif;
@@ -21,7 +29,6 @@ h1 {
 	width: 65vw;
 }
 
-/* Sidebar styling */
 #sidebar {
 	position: fixed;
 	top: 0;
@@ -55,7 +62,7 @@ h1 {
 	margin-left: 20px;
 	margin-bottom: 20px;
 	margin-right: 20px;
-	font-family: "Poppins", sans-serif;
+	font-family: "Inter", sans-serif;
 	font-size: 0.9em;
 	color: rgba(255, 255, 255, 0.5);
 }
@@ -124,7 +131,6 @@ h1 {
 	color: #402531;
 }
 
-/* Hamburger menu styling */
 #hamburger-menu {
 	margin-top: 15px;
 	margin-left: 25px;
@@ -149,34 +155,34 @@ h1 {
 
 #eventsContainer {
 	display: grid;
-	/*grid-template-columns: repeat(3, 1fr); /* Three boxes per row */
-	gap: 20px; /* Space between boxes */
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+	gap: 20px;
 	padding: 25px;
+	box-sizing: border-box;
 }
 
 .event {
 	background-color: #1e1118;
 	border-radius: 5px;
 	padding: 15px;
-	margin: 0; /* Removed margin to use gap from grid */
 	color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	line-height: 1.5;
-	max-width: 400px;
-	font-family: "Poppins", sans-serif;
+	font-family: "Inter", sans-serif;
 	font-size: 1rem;
+	box-sizing: border-box;
 }
 
 .event a {
-	color: #2095f2; /* Change to your preferred color */
-	text-decoration: none; /* Removes the underline */
+	color: #2095f2;
+	text-decoration: none;
 }
 
 .event strong {
 	color: #d8a75c;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	padding-bottom: 5px;
 }
 
@@ -203,7 +209,6 @@ h1 {
 	color: #000000;
 }
 
-/* Main content styling */
 main {
 	margin-left: 250px;
 	transition: margin-left 0.3s ease;
@@ -211,7 +216,6 @@ main {
 	box-sizing: border-box;
 }
 
-/* Responsive adjustments */
 @media (max-width: 900px) {
 	#sidebar {
 		transform: translateX(-100%);
@@ -240,7 +244,7 @@ main {
 	}
 
 	#eventsContainer {
-		gap: 15px; /* Space between boxes */
+		gap: 15px;
 		padding: 15px;
 	}
 }

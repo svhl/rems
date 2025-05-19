@@ -4,9 +4,8 @@ const session = require("express-session");
 const app = express();
 const port = 3000;
 const multer = require("multer");
-const upload = multer(); // You can configure multer here as needed
+const upload = multer();
 
-// Create MySQL connection
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
@@ -16,111 +15,90 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
 	if (err) {
-		console.error("Error connecting to the database:", err.stack);
+		console.error("Error connecting to database:", err.stack);
 		return;
 	}
-	console.log("Connected to the database.");
+	console.log("Connected to database successfully");
 });
 
-// Middleware to parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Set up session management
 app.use(
 	session({
 		secret: "your-secret-key",
 		resave: false,
 		saveUninitialized: true,
-		cookie: { secure: false }, // set to true if using HTTPS
+		// set to true if using https
+		cookie: { secure: false },
 	})
 );
-
-// Serve static files from the 'public' directory
 app.use(express.static("public"));
 
-// Authentication endpoint for students
 app.post("/api/stud-login", (req, res) => {
 	const { username, password } = req.body;
 
-	// Query to fetch user data from the database
 	const sql = "SELECT * FROM students WHERE uid = ?";
 	connection.query(sql, [username], (error, results) => {
 		if (error) {
-			console.error("Error querying user:", error);
-			return res.status(500).json({ error: "Database query error" });
+			console.error("Error querying database:", error);
+			return res.status(500).json({ error: "Error querying database" });
 		}
+
 		if (results.length === 0) {
-			return res
-				.status(401)
-				.json({ error: "Invalid username or password" });
+			return res.status(401).json({ error: "Invalid username." });
 		}
+
 		const user = results[0];
 
-		// Directly compare passwords
 		if (user.password === password) {
 			req.session.user = { uid: user.uid, name: user.name };
-			res.status(200).json({ message: "Login successful" });
+			res.sendStatus(200);
 		} else {
-			res.status(401).json({ error: "Invalid username or password" });
+			res.status(401).json({ error: "Invalid password." });
 		}
 	});
 });
 
-// Authentication endpoint for teachers
 app.post("/api/teach-login", (req, res) => {
 	const { username, password } = req.body;
 
-	// Query to fetch user data from the database
 	const sql = "SELECT * FROM teachers WHERE uid = ?";
 	connection.query(sql, [username], (error, results) => {
 		if (error) {
-			console.error("Error querying user:", error);
-			return res.status(500).json({ error: "Database query error" });
+			console.error("Error querying database:", error);
+			return res.status(500).json({ error: "Error querying database" });
 		}
 		if (results.length === 0) {
-			return res
-				.status(401)
-				.json({ error: "Invalid username or password" });
+			return res.status(401).json({ error: "Invalid username." });
 		}
 		const user = results[0];
 
-		// Directly compare passwords
 		if (user.password === password) {
 			req.session.user = { uid: user.uid, name: user.name };
-			res.status(200).json({ message: "Login successful" });
+			res.sendStatus(200);
 		} else {
-			res.status(401).json({ error: "Invalid username or password" });
+			res.status(401).json({ error: "Invalid password." });
 		}
 	});
 });
 
-// Endpoint to check authentication
 app.get("/api/check-auth", (req, res) => {
 	if (req.session.user) {
-		res.status(200).json({ message: "Authenticated" });
+		res.sendStatus(200);
 	} else {
-		res.status(401).json({ message: "Not authenticated" });
+		res.sendStatus(401);
 	}
 });
 
 app.get("/api/events", (req, res) => {
 	const { filter } = req.query;
-
-	// Check if user UID is stored in session
-	if (!req.session.user) {
-		return res.status(401).json({ error: "Not authenticated" });
-	}
-
 	const uid = req.session.user.uid;
 
-	// Base query excluding events already in submissions table for this user
 	let sql = `SELECT event_id, name, start_date, end_date, start_time, end_time, points, fee, venue, link
 			   FROM events
 			   WHERE event_id NOT IN (SELECT event_id FROM submissions WHERE uid = ?)
 			   AND event_id NOT IN (SELECT event_id FROM myevents WHERE uid = ?)`;
 
-	// Modify SQL based on the filter parameter
 	switch (filter) {
 		case "upcoming":
 			sql += " AND start_date > CURDATE() ORDER BY start_date ASC;";
@@ -139,56 +117,40 @@ app.get("/api/events", (req, res) => {
 			break;
 		default:
 			sql += " ORDER BY start_date ASC;";
-			break; // No additional filter for 'all'
+			break;
 	}
 
-	// Execute the query
 	connection.query(sql, [uid, uid], (error, results) => {
-		// Pass uid once
 		if (error) {
 			console.error("Error fetching events:", error);
-			return res.status(500).json({ error: "Failed to fetch events" });
+			return res.status(500);
 		}
 		res.json(results);
 	});
 });
 
-// Endpoint to handle file submissions with multer middleware
 app.post("/api/submit", upload.single("certificate"), (req, res) => {
 	const { event_id } = req.body;
 	const uid = req.session.user.uid;
 
-	// Ensure a file was uploaded
-	if (!req.file) {
-		return res
-			.status(400)
-			.json({ error: "A certificate file must be uploaded." });
-	}
-
-	// Check file type
+	// check file type
+	// stud_events.html will check if file selected
 	const allowedTypes = ["image/jpeg", "image/png"];
 	if (!allowedTypes.includes(req.file.mimetype)) {
 		return res
 			.status(400)
-			.json({ error: "Only JPG and PNG files are allowed." });
+			.json({ error: "Only JPG and PNG files allowed." });
 	}
 
-	const certificate = req.file.buffer; // multer handles the file upload as buffer data
+	const certificate = req.file.buffer;
 
-	// Check if event_id is provided
-	if (!event_id) {
-		return res.status(400).json({ error: "Event ID is required." });
-	}
-
-	// Insert into submissions table
 	const sql =
 		"INSERT INTO submissions (uid, event_id, certificate) VALUES (?, ?, ?)";
 	connection.query(sql, [uid, event_id, certificate], (error, results) => {
 		if (error) {
-			console.error("Error submitting certificate:", error);
-			return res.status(500).json({ error: "Submission failed" });
+			return res.sendStatus(500);
 		}
-		res.status(200).json({ message: "Submission successful" });
+		res.sendStatus(200);
 	});
 });
 
@@ -368,7 +330,7 @@ app.post("/api/approve-event", (req, res) => {
 	console.log("Event ID:", event_id); // Debugging line
 
 	if (!uid || !event_id) {
-		return res.status(400).json({ error: "Invalid event or user data" });
+		return res.status(400).json({ error: "Invalid event or user data." });
 	}
 
 	// Now insert the event into the 'myevents' table without the certificate
@@ -433,7 +395,7 @@ app.post("/api/reject-event", (req, res) => {
 	console.log("Event ID:", event_id); // Debugging line
 
 	if (!uid || !event_id) {
-		return res.status(400).json({ error: "Invalid event or user data" });
+		return res.status(400).json({ error: "Invalid event or user data." });
 	}
 
 	const sql = `
@@ -470,7 +432,7 @@ app.delete("/api/delete-event", (req, res) => {
 	const { event_id } = req.body; // Get event_id from the request body
 
 	if (!event_id) {
-		return res.status(400).json({ error: "Invalid event data" });
+		return res.status(400).json({ error: "Invalid event data." });
 	}
 
 	// SQL query to delete the event from the events table
@@ -552,18 +514,15 @@ app.post("/api/add-event", (req, res) => {
 });
 
 app.post("/api/logout", (req, res) => {
-	// Destroy the session to log the user out
 	req.session.destroy((err) => {
 		if (err) {
-			return res.status(500).json({ error: "Failed to log out" });
+			return res.sendStatus(500);
 		}
 
-		// Send a response indicating the user has been logged out
-		res.status(200).json({ message: "Logged out successfully" });
+		res.sendStatus(200);
 	});
 });
 
-// Start the server
 app.listen(port, () => {
 	console.log(`Server running at http://localhost:${port}`);
 });
