@@ -3,159 +3,145 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>About Us - Rajagiri Event Management System</title>
-		<link rel="stylesheet" href="about_us.css" />
+		<link rel="stylesheet" href="index.css" />
+		<link rel="icon" href="rajagiri.png" type="image/png" />
+		<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter&family=Merriweather&family=Cinzel"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+		/>
+		<title>REMS | About</title>
 	</head>
+
 	<body>
-		<header>
-			<a href="index.html">
-				<img
-					src="rajagiri.png"
-					alt="Rajagiri Logo"
-					class="logo hvr-grow"
-				/>
-			</a>
-			<div class="button-container">
-				<button
-					id="about"
-					class="hvr-fade"
-					onclick="window.location.href='about_us.html'"
-				>
-					About Us
-				</button>
-				<button
-					class="hvr-fade"
-					onclick="window.location.href='stud_login.html'"
-				>
+		<div id="sidebar">
+			<div class="sidebar-header">
+				<img src="rajagiri.png" alt="Rajagiri Logo" class="logo" />
+				<span class="sidebar-title">REMS</span>
+			</div>
+
+			<nav class="sidebar-nav">
+				<button onclick="window.location.href='stud_login.html'">
+					<span class="material-symbols-outlined">person</span>
 					Student Login
 				</button>
-				<button
-					class="hvr-fade"
-					onclick="window.location.href='teach_login.html'"
-				>
+
+				<button onclick="window.location.href='teach_login.html'">
+					<span class="material-symbols-outlined"
+						>supervisor_account</span
+					>
 					Teacher Login
 				</button>
-			</div>
-		</header>
 
-		<section class="hero-section">
-			<h1 class="hero-title">Rajagiri Event Management System</h1>
-			<p class="hero-description">
-				Rajagiri Event Management System is a platform designed to help
-				students and teachers view and manage upcoming events and
-				activity points efficiently. It integrates advanced filtering
-				capabilities to enhance user experience and simplify the event
-				management process.
-			</p>
-		</section>
+				<button id="highlight">
+					<span class="material-symbols-outlined">help</span>
+					About REMS
+				</button>
+			</nav>
 
-		<section class="content-section">
-			<h2 class="section-title">System Overview</h2>
-			<p>
-				The Rajagiri Event Management System offers a comprehensive
-				solution for managing events within the institution. It provides
-				features for both students and teachers, facilitating easy
-				access to upcoming events, activity points, and certificate
-				submissions. The system aims to streamline event organization
-				and activity tracking.
-			</p>
+			<span class="sidebar-footer"
+				>REMS is not officially associated with Rajagiri</span
+			>
+		</div>
 
-			<h2 class="section-title">Key Features</h2>
-			<ul>
-				<li>
-					<strong>Login for Students and Teachers:</strong> Separate
-					login portals for students and teachers to access
-					personalized information.
-				</li>
-				<li>
-					<strong>Display of Events:</strong> A view of all upcoming
-					events, making it easier to stay informed.
-				</li>
-				<li>
-					<strong>Event Management:</strong> Allows users to add and
-					delete events with ease.
-				</li>
-				<li>
-					<strong>Advanced Filtering:</strong> Enhanced filtering
-					options using AI for a more personalized experience.
-				</li>
-				<li>
-					<strong>Activity Points Management:</strong> Submit
-					certificates for activity points and track progress.
-				</li>
-				<li>
-					<strong>Review Feature:</strong> Users can review event
-					details and view itineraries.
-				</li>
-			</ul>
+		<div id="hamburger-menu" onclick="toggleMenu()">
+			<span class="material-symbols-outlined">menu</span>
+		</div>
 
-			<h2 class="section-title">Technologies Used</h2>
-			<p>
-				The system is built with a combination of technologies to ensure
-				a smooth user experience:
-			</p>
-			<ul>
-				<li>
-					<strong>Frontend:</strong>
-					<img
-						class="icon"
-						src="html_icon.svg"
-						alt="HTML icon"
-						width="35"
-						height="35"
-					/>
-					<img
-						class="icon"
-						src="css_icon.svg"
-						alt="CSS icon"
-						width="35"
-						height="35"
-					/>
-				</li>
-				<li>
-					<strong>Backend:</strong>
-					<img
-						class="icon"
-						src="node_js_icon.svg"
-						alt="Node JS icon"
-						width="35"
-						height="35"
-					/>
-					<img
-						class="icon"
-						src="mysql_icon.svg"
-						alt="MySQL icon"
-						width="35"
-						height="35"
-					/>
-				</li>
-			</ul>
+		<main>
+			<h3>Why REMS?</h3>
+			<h2>
+				<p><b>🚀 Simplify submission</b></p>
+				<p>
+					Students no longer have to enter the details of events
+					manually during submission!<br />Just select an event and
+					upload your certificate.
+				</p>
 
-			<h2 class="section-title">Meet the Team</h2>
-			<ul>
-				<li>
-					Deril Jose Thirunilath | Frontend |
-					<a href="https://github.com/deriljose" target="_blank"
-						>Github</a
+				<p>
+					<b><br />🔍 Find events with ease</b>
+				</p>
+				<p>
+					No more keeping track of upcoming events across various
+					groups.<br />Discover events happening around you on one
+					platform!
+				</p>
+
+				<p>
+					<b><br />⚡ Responsive user interface</b>
+				</p>
+				<p>For an optimized experience on desktop as well as mobile!</p>
+			</h2>
+
+			<h3>Our Team</h3>
+			<h2>
+				<p>
+					<b>Muhammed S. Suhail</b> |
+					<a
+						href="https://github.com/svhl"
+						style="text-decoration: underline; color: #d8a75c"
+						>GitHub</a
 					>
-				</li>
-				<li>
-					Juan Jude Pereira | Frontend |
-					<a href="https://github.com/juanpereiira" target="_blank"
-						>Github</a
+				</p>
+				<p>
+					<b>Deril Jose Thirunilath</b> |
+					<a
+						href="https://github.com/deriljose"
+						style="text-decoration: underline; color: #d8a75c"
+						>GitHub</a
 					>
-				</li>
-				<li>
-					Muhammed S. Suhail | Backend |
-					<a href="https://github.com/svhl" target="_blank">Github</a>
-				</li>
-				<li>
-					Geevar Saji Kuriakose | Backend |
-					<a href="https://github.com/" target="_blank">Github</a>
-				</li>
-			</ul>
-		</section>
+				</p>
+				<p>
+					<b>Juan Jude Pereira</b> |
+					<a
+						href="https://github.com/juanpereiira"
+						style="text-decoration: underline; color: #d8a75c"
+						>GitHub</a
+					>
+				</p>
+				<p>
+					<b>Geevar Saji Kuriakose</b> |
+					<a
+						href="https://github.com/svhl/Geevar12"
+						style="text-decoration: underline; color: #d8a75c"
+						>GitHub</a
+					>
+				</p>
+			</h2>
 
-		<script src="script.js"></script>
+			<h3>Copyright</h3>
+			<h2>
+				<p>All copyrights belong to their respective owners.</p>
+			</h2>
+		</main>
+
+		<script>
+			function toggleMenu() {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// toggle sidebar open/close
+				// hidden on desktop
+				sidebar.classList.toggle("open");
+			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// check if mouse click outside sidebar and not on hamburger menu
+				if (
+					!sidebar.contains(event.target) &&
+					!hamburgerMenu.contains(event.target)
+				) {
+					// close sidebar if open
+					sidebar.classList.remove("open");
+				}
+			});
+		</script>
 	</body>
 </html>
