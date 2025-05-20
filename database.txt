@@ -39,3 +39,11 @@ create table submissions(
 	foreign key (uid) references students(uid),
 	foreign key (event_id) references events(event_id) on delete cascade
 );
+
+insert into students (uid, name, password) values ('u0001', 'John Doe', 'u0001');
+insert into students (uid, name, password) values ('u0002', 'Jane Smith', 'u0002');
+insert into students (uid, name, password) values ('u0003', 'Alex Johnson', 'u0003');
+
+insert into teachers (uid, password) values ('t0001', 't0001');
+insert into teachers (uid, password) values ('t0002', 't0002');
+insert into teachers (uid, password) values ('t0003', 't0003');

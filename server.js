@@ -90,6 +90,15 @@ app.get("/api/check-auth", (req, res) => {
 	}
 });
 
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+	if (req.session.user) {
+		next();
+	} else {
+		res.status(401).json({ message: "Unauthorized." });
+	}
+}
+
 app.get("/api/events", (req, res) => {
 	const { filter } = req.query;
 	const uid = req.session.user.uid;
@@ -173,7 +182,6 @@ app.get("/api/submitted-events", (req, res) => {
 		ORDER BY e.start_date DESC;
 	`;
 
-	// Execute the query
 	connection.query(sql, [uid], (error, results) => {
 		if (error) {
 			console.error("Error fetching submitted events:", error);
@@ -215,7 +223,6 @@ app.get("/api/approved-events", (req, res) => {
 	  ORDER BY e.start_date DESC;
 	`;
 
-	// Execute the query
 	connection.query(sql, [uid], (error, results) => {
 		if (error) {
 			console.error("Error fetching approved events:", error);
@@ -224,7 +231,6 @@ app.get("/api/approved-events", (req, res) => {
 				.json({ error: "Failed to fetch approved events" });
 		}
 
-		// Send the events in the response
 		res.json(results);
 	});
 });
@@ -246,7 +252,6 @@ app.get("/api/pending-events", (req, res) => {
         ORDER BY e.start_date DESC;
     `;
 
-	// Execute the query
 	connection.query(sql, (error, results) => {
 		if (error) {
 			console.error("Error fetching pending events:", error);
@@ -287,9 +292,8 @@ app.get("/api/certificate/:eventId", (req, res) => {
 			return res.status(404).json({ error: "Certificate not found" });
 		}
 
-		// Send the image as inline to view it in the browser
 		res.setHeader("Content-Type", "image/jpeg"); // Default to JPEG, adjust if you store the mime type
-		res.setHeader("Content-Disposition", "inline"); // Display inline, not as download
+		res.setHeader("Content-Disposition", "inline");
 		res.send(results[0].certificate);
 	});
 });
@@ -311,9 +315,8 @@ app.get("/api/certificate/:eventId/:studentUid", (req, res) => {
 			return res.status(404).json({ error: "Certificate not found" });
 		}
 
-		// Send the image as inline to view it in the browser
 		res.setHeader("Content-Type", "image/jpeg"); // Default to JPEG, adjust if you store the mime type
-		res.setHeader("Content-Disposition", "inline"); // Display inline, not as download
+		res.setHeader("Content-Disposition", "inline");
 		res.send(results[0].certificate);
 	});
 });
@@ -325,9 +328,6 @@ app.post("/api/approve-event", (req, res) => {
 	}
 
 	const { event_id, uid } = req.body; // Get the uid and event_id from the request body
-
-	console.log("UID:", uid); // Debugging line
-	console.log("Event ID:", event_id); // Debugging line
 
 	if (!uid || !event_id) {
 		return res.status(400).json({ error: "Invalid event or user data." });
@@ -369,13 +369,12 @@ app.post("/api/approve-event", (req, res) => {
 							deleteError
 						);
 						return res.status(500).json({
-							error: "Failed to remove event from submissions",
+							error: "Failed to remove event from submissions.",
 						});
 					}
 
 					res.status(200).json({
-						message:
-							"Event approved and removed from pending list successfully",
+						message: "Event approved successfully.",
 					});
 				}
 			);
@@ -391,9 +390,6 @@ app.post("/api/reject-event", (req, res) => {
 
 	const { event_id, uid } = req.body; // Get the uid and event_id from the request body
 
-	console.log("UID:", uid); // Debugging line
-	console.log("Event ID:", event_id); // Debugging line
-
 	if (!uid || !event_id) {
 		return res.status(400).json({ error: "Invalid event or user data." });
 	}
@@ -403,30 +399,20 @@ app.post("/api/reject-event", (req, res) => {
         WHERE event_id = ? AND uid = ?;
     `;
 
-	// Execute the query to reject the event
 	connection.query(sql, [event_id, uid], (error, results) => {
 		if (error) {
 			console.error("Error rejecting event:", error);
-			return res.status(500).json({ error: "Failed to reject event" });
+			return res.status(500).json({ error: "Failed to reject event." });
 		}
 
-		res.status(200).json({ message: "Event rejected successfully" });
+		res.status(200).json({ message: "Event rejected successfully." });
 	});
 });
-
-// Middleware to check if user is authenticated
-function isAuthenticated(req, res, next) {
-	if (req.session.user) {
-		next();
-	} else {
-		res.status(401).json({ message: "Unauthorized" });
-	}
-}
 
 app.delete("/api/delete-event", (req, res) => {
 	// Check if the teacher is authenticated
 	if (!req.session.user) {
-		return res.status(401).json({ error: "Not authenticated" });
+		return res.status(401).json({ error: "Not authenticated." });
 	}
 
 	const { event_id } = req.body; // Get event_id from the request body
@@ -438,18 +424,17 @@ app.delete("/api/delete-event", (req, res) => {
 	// SQL query to delete the event from the events table
 	const sql = "DELETE FROM events WHERE event_id = ?";
 
-	// Execute the query
 	connection.query(sql, [event_id], (error, results) => {
 		if (error) {
 			console.error("Error deleting event:", error);
-			return res.status(500).json({ error: "Failed to delete event" });
+			return res.status(500).json({ error: "Failed to delete event." });
 		}
 
 		if (results.affectedRows === 0) {
-			return res.status(404).json({ error: "Event not found" });
+			return res.status(404).json({ error: "Event not found." });
 		}
 
-		res.status(200).json({ message: "Event deleted successfully" });
+		res.status(200).json({ message: "Event deleted successfully." });
 	});
 });
 
@@ -478,7 +463,7 @@ app.post("/api/add-event", (req, res) => {
 		!venue ||
 		!link
 	) {
-		return res.status(400).json({ error: "All fields are required" });
+		return res.status(400).json({ error: "All fields are required." });
 	}
 
 	// SQL query to insert data into the events table
@@ -487,7 +472,6 @@ app.post("/api/add-event", (req, res) => {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-	// Run the query to insert the data into the database
 	connection.query(
 		sql,
 		[
@@ -504,11 +488,10 @@ app.post("/api/add-event", (req, res) => {
 		(error, results) => {
 			if (error) {
 				console.error("Error adding event:", error);
-				return res.status(500).json({ error: "Failed to add event" });
+				return res.status(500).json({ error: "Failed to add event." });
 			}
 
-			// Send success response
-			res.status(201).json({ message: "Event added successfully" });
+			res.status(201).json({ message: "Event added successfully." });
 		}
 	);
 });
