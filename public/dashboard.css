@@ -10,6 +10,14 @@ body {
 	overflow: auto;
 }
 
+#loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	font-family: "Inter", sans-serif;
+}
+
 h1 {
 	font-size: 3em;
 	font-family: "Merriweather", serif;
@@ -21,7 +29,6 @@ h1 {
 	width: 65vw;
 }
 
-/* Sidebar styling */
 #sidebar {
 	position: fixed;
 	top: 0;
@@ -55,7 +62,7 @@ h1 {
 	margin-left: 20px;
 	margin-bottom: 20px;
 	margin-right: 20px;
-	font-family: "Poppins", sans-serif;
+	font-family: "Inter", sans-serif;
 	font-size: 0.9em;
 	color: rgba(255, 255, 255, 0.5);
 }
@@ -111,7 +118,7 @@ h1 {
 }
 
 #highlight {
-	background-color: #fac06a;
+	background-color: #d8a75c;
 	color: #402531;
 	cursor: default;
 }
@@ -124,7 +131,6 @@ h1 {
 	color: #402531;
 }
 
-/* Hamburger menu styling */
 #hamburger-menu {
 	margin-top: 15px;
 	margin-left: 25px;
@@ -147,36 +153,98 @@ h1 {
 	margin-bottom: 20px; /* Space between dropdown and event grid */
 }
 
+select {
+	background: #1e1118;
+	color: #ffffff;
+	border-radius: 0.25rem;
+	border-width: 0.0625rem;
+	border-color: rgba(128, 128, 128, 0.3);
+	height: 25px;
+}
+
+input {
+	background: #1e1118;
+	color: #ffffff;
+	border-radius: 0.15rem;
+	border-width: 0.0625rem;
+	border-color: rgba(128, 128, 128, 0.3);
+}
+
+#actionbuttons {
+	display: flex;
+	gap: 10px;
+}
+
+.approve,
+.reject,
+.submit {
+	font-family: "Inter", sans-serif;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #402531;
+	color: #ffffff;
+	cursor: pointer;
+	margin-top: 10px;
+	width: 8em;
+	font-size: 0.75em;
+}
+
+.submit {
+	background-color: #d8a75c;
+	color: #130b0f;
+}
+
+.approve:hover,
+.reject:hover {
+	background-color: #fac06a;
+	color: #130b0f;
+}
+
+.submit:hover {
+	background-color: #fac06a;
+}
+
+#eventForm {
+	margin-left: 26px;
+	font-family: "Inter", sans-serif;
+}
+
+label {
+	display: inline-block;
+	width: 100px;
+}
+
 #eventsContainer {
 	display: grid;
-	/*grid-template-columns: repeat(3, 1fr); /* Three boxes per row */
-	gap: 20px; /* Space between boxes */
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+	gap: 20px;
 	padding: 25px;
+	box-sizing: border-box;
 }
 
 .event {
 	background-color: #1e1118;
 	border-radius: 5px;
 	padding: 15px;
-	margin: 0; /* Removed margin to use gap from grid */
 	color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	line-height: 1.5;
-	max-width: 400px;
-	font-family: "Poppins", sans-serif;
+	font-family: "Inter", sans-serif;
 	font-size: 1rem;
+	box-sizing: border-box;
 }
 
 .event a {
-	color: #2095f2; /* Change to your preferred color */
-	text-decoration: none; /* Removes the underline */
+	color: #2095f2;
+	text-decoration: none;
 }
 
 .event strong {
 	color: #d8a75c;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	padding-bottom: 5px;
 }
 
@@ -203,7 +271,6 @@ h1 {
 	color: #000000;
 }
 
-/* Main content styling */
 main {
 	margin-left: 250px;
 	transition: margin-left 0.3s ease;
@@ -211,7 +278,6 @@ main {
 	box-sizing: border-box;
 }
 
-/* Responsive adjustments */
 @media (max-width: 900px) {
 	#sidebar {
 		transform: translateX(-100%);
@@ -233,6 +299,10 @@ main {
 		margin-top: -20px;
 	}
 
+	#eventForm {
+		margin-left: 15px;
+	}
+
 	h2 {
 		font-size: 1em;
 		margin-left: 15px;
@@ -240,7 +310,7 @@ main {
 	}
 
 	#eventsContainer {
-		gap: 15px; /* Space between boxes */
+		gap: 15px;
 		padding: 15px;
 	}
 }
@@ -248,5 +318,21 @@ main {
 @media (max-width: 520px) {
 	h1 {
 		font-size: 2em;
+	}
+
+	#eventsContainer {
+		grid-template-columns: unset;
+	}
+}
+
+@media (max-width: 330px) {
+	#actionbuttons {
+		flex-direction: column;
+		gap: 0px;
+	}
+
+	.approve,
+	.reject {
+		width: 100%;
 	}
 }

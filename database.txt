@@ -1,0 +1,49 @@
+create table events(
+	event_id int auto_increment primary key,
+	name varchar(100) not null,
+	start_date date,
+	end_date date,
+	start_time varchar(8),
+	end_time varchar(8),
+	points int,
+	fee int,
+	venue varchar(100),
+	link varchar(100)
+);
+
+create table students(
+	uid varchar(8) primary key,
+	name varchar(100) not null,
+	password varchar(100) not null,
+	points int default 0
+);
+
+create table teachers(
+	uid varchar(8) primary key,
+	password varchar(100) not null
+);
+
+create table myevents(
+	ev_id int auto_increment primary key,
+	uid varchar(8),
+	event_id int,
+	foreign key (uid) references students(uid),
+	foreign key (event_id) references events(event_id) on delete cascade
+);
+
+create table submissions(
+	sub_id int auto_increment primary key,
+	uid varchar(8),
+	event_id int,
+	certificate mediumblob,
+	foreign key (uid) references students(uid),
+	foreign key (event_id) references events(event_id) on delete cascade
+);
+
+insert into students (uid, name, password) values ('u0001', 'John Doe', 'u0001');
+insert into students (uid, name, password) values ('u0002', 'Jane Smith', 'u0002');
+insert into students (uid, name, password) values ('u0003', 'Alex Johnson', 'u0003');
+
+insert into teachers (uid, password) values ('t0001', 't0001');
+insert into teachers (uid, password) values ('t0002', 't0002');
+insert into teachers (uid, password) values ('t0003', 't0003');

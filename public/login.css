@@ -1,180 +1,179 @@
-/* Reset some default styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-/* Set background color and font */
-body, html {
-  height: 100%; /* Ensure body and html take up full height */
-  background: #402531;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+body,
+html {
+	height: 100%;
+	background: #402531;
+	font-family: Arial, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
-/* Style the login card */
 #loginCard {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px 20px; /* Increased top and bottom padding */
-  border-radius: 5px;
-  width: 750px;
-  max-height: 90%;
-  max-width: 90%;
-  margin: 0 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	background-color: rgba(0, 0, 0, 0.7);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+	padding: 20px 20px;
+	border-radius: 10px;
+	width: 750px;
+	max-height: 90%;
+	max-width: 90%;
+	margin: 0 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
-/* Style the heading */
 h1 {
-  font-size: 2.5em;
-  font-family: "Merriweather", serif;
-  margin-bottom: 30px;
-  color: #ffffff;
-  margin-left: 30px;
-  width: 100px;
+	font-size: 2.5em;
+	font-family: "Merriweather", serif;
+	margin-bottom: 30px;
+	color: #ffffff;
+	margin-left: 30px;
+	width: 100px;
 }
 
-/* Style input fields */
 .inputField {
-  width: 320px;
-  height: 40px;
-  padding: 10px;
-  color: #ffffff;
-  background: rgba(22, 22, 22, 0.7);
-  border-radius: 0.25rem;
-  border-width: 0.0625rem;
-  border-color: rgba(128, 128, 128, 0.7);
-  box-sizing: border-box;
-  font-size: 0.75em;
-  font-family: "Poppins", sans-serif;
-  margin-right: 30px;
-  margin-left: auto;
+	width: 320px;
+	height: 40px;
+	padding: 10px;
+	color: #ffffff;
+	background: rgba(22, 22, 22, 0.7);
+	border-radius: 0.25rem;
+	border-width: 0.0625rem;
+	border-color: rgba(128, 128, 128, 0.7);
+	box-sizing: border-box;
+	font-size: 0.75em;
+	font-family: "Inter", sans-serif;
+	margin-right: 30px;
+	margin-left: auto;
 }
 
-/* Style the submit button */
 button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 120px;
-  height: 40px;
-  background-color: #d8a75c;
-  font-size: 0.75em;
-  font-family: "Poppins", sans-serif;
-  margin-right: 30px;
-  margin-left: auto;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 120px;
+	height: 40px;
+	background-color: #d8a75c;
+	color: #130b0f;
+	font-size: 0.75em;
+	font-family: "Inter", sans-serif;
+	margin-right: 30px;
+	margin-left: auto;
 }
 
-/* Chrome-specific CSS */
+/* set gaps for chromium */
 @supports (-webkit-appearance: none) {
-  h1 {
-    transform: translateY(52px);
-  }
+	h1 {
+		transform: translateY(52px);
+	}
 
-  .inputField {
-    margin-top: -10px;
-    transform: translateY(-62px);
-  }
+	.inputField {
+		margin-top: -10px;
+		transform: translateY(-62px);
+	}
 
-  button {
-    margin-top: -10px;
-    transform: translateY(-62px);
-  }
+	button {
+		margin-top: -10px;
+		transform: translateY(-62px);
+	}
 }
 
-/* Firefox-specific CSS */
+/* set gaps for firefox */
 @-moz-document url-prefix() {
-  h1 {
-    transform: translateY(65px);
-  }
+	h1 {
+		transform: translateY(65px);
+	}
 
-  .inputField {
-    margin-top: 7px;
-    transform: translateY(-67px);
-  }
+	.inputField {
+		margin-top: 7px;
+		transform: translateY(-67px);
+	}
 
-  button {
-    margin-top: 7px;
-    transform: translateY(-67px);
-  }
+	button {
+		margin-top: 7px;
+		transform: translateY(-67px);
+	}
 }
 
-/* Hover effect for button */
 button:hover {
-  background-color: #fac06a;
+	background-color: #fac06a;
 }
 
-/* Media Queries for Responsiveness */
+/* landscape to portrait login card */
 @media (max-width: 900px) {
-  #loginCard {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 50px 20px; /* Increased top and bottom padding */
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    margin: 0 20px;
-  }
+	#loginCard {
+		background-color: rgba(0, 0, 0, 0.7);
+		padding: 50px 20px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+		width: 100%;
+		max-width: 400px;
+		text-align: center;
+		margin: 0 20px;
+	}
 
-  /* Style the heading */
-  h1 {
-    font-size: 2em;
-    font-family: "Merriweather", serif;
-    margin-bottom: 30px;
-    color: #ffffff;
-    text-align: center;
-    margin-left: 0px;
-    width: unset;
-    transform: translateY(20px);
-  }
+	h1 {
+		font-size: 2em;
+		font-family: "Merriweather", serif;
+		margin-bottom: 30px;
+		color: #ffffff;
+		text-align: center;
+		margin-left: 0px;
+		width: unset;
+		transform: translateY(20px);
+	}
 
-  /* Style input fields */
-  .inputField {
-    width: 100%;
-    color: #ffffff;
-    background: rgba(22, 22, 22, 0.7);
-    border-radius: 0.25rem;
-    border-width: 0.0625rem;
-    border-color: rgba(128, 128, 128, 0.7);
-    box-sizing: border-box;
-    font-size: 0.8em;
-    font-family: "Poppins", sans-serif;
-    transform: translateY(30px);
-  }
+	.inputField {
+		width: 100%;
+		color: #ffffff;
+		background: rgba(22, 22, 22, 0.7);
+		border-radius: 0.25rem;
+		border-width: 0.0625rem;
+		border-color: rgba(128, 128, 128, 0.7);
+		box-sizing: border-box;
+		font-size: 0.8em;
+		font-family: "Inter", sans-serif;
+		transform: translateY(30px);
+	}
 
-  /* Style the submit button */
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 110px;
-    margin-right: 0;
-    background-color: #d8a75c;
-    font-size: 0.8em;
-    font-family: "Poppins", sans-serif;
-    transform: translateY(30px);
-  }
+	button {
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		width: 110px;
+		margin-right: 0;
+		background-color: #d8a75c;
+		font-size: 0.8em;
+		font-family: "Inter", sans-serif;
+		transform: translateY(30px);
+	}
 
-  @supports (-webkit-appearance: none) {
-    h1 {
-      transform: translateY(10px);
-    }
-  }
-  
-  /* Firefox-specific CSS */
-  @-moz-document url-prefix() {
-    h1 {
-      transform: translateY(20px)
-    }
-  }
+	/* set gaps for chromium */
+	@supports (-webkit-appearance: none) {
+		h1 {
+			transform: translateY(10px);
+		}
+	}
+
+	/* set gaps for firefox */
+	@-moz-document url-prefix() {
+		h1 {
+			transform: translateY(20px);
+		}
+	}
 }
- 
+
+/* unround corners when it touched edge of screen */
+@media (max-width: 309px) {
+	#loginCard {
+		border-radius: 0;
+	}
+}

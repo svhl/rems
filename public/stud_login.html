@@ -7,13 +7,15 @@
 		<link rel="stylesheet" href="login.css" />
 		<link rel="icon" href="rajagiri.png" type="image/png" />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Cinzel"
+			href="https://fonts.googleapis.com/css2?family=Inter&family=Merriweather"
 			rel="stylesheet"
 		/>
 	</head>
+
 	<body>
 		<form id="loginCard">
 			<h1>Student Login</h1>
+
 			<input
 				type="text"
 				class="inputField"
@@ -22,6 +24,7 @@
 				required
 			/>
 			<br />
+
 			<input
 				type="password"
 				class="inputField"
@@ -30,8 +33,10 @@
 				required
 			/>
 			<br />
+
 			<button type="submit">Sign In</button>
 		</form>
+
 		<script>
 			document
 				.getElementById("loginCard")
@@ -39,6 +44,7 @@
 					event.preventDefault();
 					const username = document.getElementById("username").value;
 					const password = document.getElementById("password").value;
+
 					try {
 						const response = await fetch("/api/stud-login", {
 							method: "POST",
@@ -47,18 +53,16 @@
 							},
 							body: JSON.stringify({ username, password }),
 						});
+
 						if (response.ok) {
 							window.location.href = "stud_events.html";
 						} else {
 							const result = await response.json();
-							alert(
-								result.error ||
-									"Login failed. Please check your username and password."
-							);
+							alert(result.error);
 						}
 					} catch (error) {
-						console.error("Error:", error);
-						alert("An error occurred. Please try again later.");
+						console.error(error);
+						alert("An error occurred, try again later.");
 					}
 				});
 		</script>

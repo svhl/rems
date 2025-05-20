@@ -7,7 +7,7 @@
 		<link rel="icon" href="rajagiri.png" type="image/png" />
 		<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Cinzel"
+			href="https://fonts.googleapis.com/css2?family=Inter&family=Merriweather&family=Cinzel"
 			rel="stylesheet"
 		/>
 		<link
@@ -16,36 +16,41 @@
 		/>
 		<title>REMS | Home</title>
 	</head>
+
 	<body>
 		<div id="particles-js"></div>
 		<script src="particles.js"></script>
-		<!-- Sidebar -->
-		<!-- Sidebar -->
+
 		<div id="sidebar">
 			<div class="sidebar-header">
 				<img src="rajagiri.png" alt="Rajagiri Logo" class="logo" />
 				<span class="sidebar-title">REMS</span>
 			</div>
+
 			<nav class="sidebar-nav">
 				<button onclick="window.location.href='stud_login.html'">
 					<span class="material-symbols-outlined">person</span>
 					Student Login
 				</button>
+
 				<button onclick="window.location.href='teach_login.html'">
-					<span class="material-symbols-outlined">
-						supervisor_account</span
+					<span class="material-symbols-outlined"
+						>supervisor_account</span
 					>
 					Teacher Login
 				</button>
+
 				<button onclick="window.location.href='about_us.html'">
 					<span class="material-symbols-outlined">help</span>
 					About REMS
 				</button>
 			</nav>
-			<span class="sidebar-footer">REMS is not officially associated with Rajagiri</span>
+
+			<span class="sidebar-footer"
+				>REMS is not officially associated with Rajagiri</span
+			>
 		</div>
 
-		<!-- Hamburger Menu -->
 		<div id="hamburger-menu" onclick="toggleMenu()">
 			<span class="material-symbols-outlined">menu</span>
 		</div>
@@ -59,7 +64,14 @@
 					View events, upload certificates, and gain activity points —
 					all on one platform
 				</p>
-				<p><br>Want to learn more? Check out the source code on <a href="https://github.com/svhl/rems" style="text-decoration: underline; color: #d8a75c;">GitHub</a></p>
+				<p>
+					<br />Looking for login credentials? Find it on
+					<a
+						href="https://github.com/svhl/rems"
+						style="text-decoration: underline; color: #d8a75c"
+						>GitHub</a
+					>
+				</p>
 			</h2>
 		</main>
 
@@ -68,7 +80,8 @@
 				const sidebar = document.getElementById("sidebar");
 				const hamburgerMenu = document.getElementById("hamburger-menu");
 
-				// Toggle the sidebar open/close
+				// toggle sidebar open/close
+				// hidden on desktop
 				sidebar.classList.toggle("open");
 			}
 
@@ -76,12 +89,12 @@
 				const sidebar = document.getElementById("sidebar");
 				const hamburgerMenu = document.getElementById("hamburger-menu");
 
-				// Check if the click is outside the sidebar and not on the hamburger menu
+				// check if mouse click outside sidebar and not on hamburger menu
 				if (
 					!sidebar.contains(event.target) &&
 					!hamburgerMenu.contains(event.target)
 				) {
-					// Close the sidebar if it's open
+					// close sidebar if open
 					sidebar.classList.remove("open");
 				}
 			});
