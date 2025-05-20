@@ -119,6 +119,7 @@ h2 p {
 }
 
 .sidebar-nav button {
+	-webkit-tap-highlight-color: transparent;
 	border: none;
 	background-color: #402531;
 	color: #ffffff;
@@ -148,6 +149,7 @@ h2 p {
 }
 
 #hamburger-menu {
+	-webkit-tap-highlight-color: transparent;
 	margin-top: 15px;
 	margin-left: 25px;
 	width: 20px;

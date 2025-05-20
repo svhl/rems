@@ -122,6 +122,29 @@
 		</main>
 
 		<script>
+			function toggleMenu() {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// toggle sidebar open/close
+				// hidden on desktop
+				sidebar.classList.toggle("open");
+			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				// check if mouse click outside sidebar and not on hamburger menu
+				if (
+					!sidebar.contains(event.target) &&
+					!hamburgerMenu.contains(event.target)
+				) {
+					// close sidebar if open
+					sidebar.classList.remove("open");
+				}
+			});
+			
 			document.addEventListener("DOMContentLoaded", function () {
 				const eventForm = document.getElementById("eventForm");
 

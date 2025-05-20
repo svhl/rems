@@ -55,6 +55,7 @@ h1 {
 }
 
 button {
+	-webkit-tap-highlight-color: transparent;
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;

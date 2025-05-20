@@ -90,6 +90,7 @@ h1 {
 }
 
 .sidebar-nav button {
+	-webkit-tap-highlight-color: transparent;
 	border: none;
 	background-color: #402531;
 	color: #ffffff;
@@ -132,6 +133,7 @@ h1 {
 }
 
 #hamburger-menu {
+	-webkit-tap-highlight-color: transparent;
 	margin-top: 15px;
 	margin-left: 25px;
 	width: 20px;
@@ -178,6 +180,7 @@ input {
 .approve,
 .reject,
 .submit {
+	-webkit-tap-highlight-color: transparent;
 	font-family: "Inter", sans-serif;
 	padding: 10px 20px;
 	border: none;
