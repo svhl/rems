@@ -169,13 +169,15 @@
 									<span><b>Points:</b> ${event.points}</span> <br>
 									<span><b>Entry fee:</b> $${event.fee}</span> <br>
 									<span><b>Venue:</b> ${event.venue}</span> <br>
-									<a href="${event.link}" target="_blank">${event.link}</a> <br>
-									<input type="file" id="certificateInput-${
+									<span><b>Link:
+									<a href="${event.link}" target="_blank">${event.link}</a></b></span><br>
+									<span><b>Upload Certificate:</b></span>
+									<span><input type="file" id="certificateInput-${
 										event.event_id
 									}" style="margin-top: 5px;">
-									<button id="upload" onclick="submitCertificate(${
+									<span><button id="upload" onclick="submitCertificate(${
 										event.event_id
-									})" style="margin-top: 5px;">Upload</button>
+									})" style="margin-top: 5px;">Upload</button></span><br>
 								`;
 
 								eventsContainer.appendChild(eventDiv);

@@ -217,21 +217,22 @@ label {
 
 #eventsContainer {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-	gap: 20px;
-	padding: 25px;
+	grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+	gap: 30px;
+	padding: 20px;
 	box-sizing: border-box;
 }
 
 .event {
-	background-color: #1e1118;
+	background-color: #291721;
 	border-radius: 5px;
-	padding: 15px;
+	padding: 10px;
+	gap: -20px;
 	color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	line-height: 1.5;
+	line-height: 1.1;
 	font-family: "Inter", sans-serif;
 	font-size: 1rem;
 	box-sizing: border-box;
@@ -242,10 +243,24 @@ label {
 	text-decoration: none;
 }
 
+.event a:hover{
+	text-decoration: underline;
+}
+
 .event strong {
-	color: #d8a75c;
-	font-size: 1.1rem;
-	padding-bottom: 5px;
+	align-self: center;
+	color: #fac06a;
+	margin-bottom: 20px;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-weight:bolder;
+	text-align: center;
+	text-shadow: 1.2px 1px #363636;
+	background: linear-gradient(to right, rgb(0, 0, 0) , rgb(92, 23, 88));
+	box-shadow: 2px 2px rgb(249, 230, 254);
+	width: 104%;
+	border-radius: 4px;
+	font-size: 1.6rem;
+	
 }
 
 .event span {
