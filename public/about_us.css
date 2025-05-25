@@ -1,0 +1,218 @@
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #130b0f;
+	color: #f0f0f0;
+	line-height: 1.6;
+}
+
+.hvr-fade {
+	display: inline-block;
+	vertical-align: middle;
+	-webkit-transform: perspective(1px) translateZ(0);
+	transform: perspective(1px) translateZ(0);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	overflow: hidden;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: color, background-color;
+	transition-property: color, background-color;
+}
+.hvr-fade:hover,
+.hvr-fade:focus,
+.hvr-fade:active {
+	background-color: #fac06a;
+	color: white;
+}
+
+.hvr-grow {
+	display: inline-block;
+	vertical-align: middle;
+	-webkit-transform: perspective(1px) translateZ(0);
+	transform: perspective(1px) translateZ(0);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: transform;
+	transition-property: transform;
+}
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+/* Header */
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	color: #0f0f0f;
+	background-color: #402531;
+}
+
+.logo {
+	position: absolute; /* Position it absolutely */
+	top: 10px; /* Distance from the top */
+	left: 10px; /* Distance from the left */
+	width: 42px; /* Set the width of the logo */
+	height: auto; /* Maintain aspect ratio */
+}
+
+.button-container {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+	width: 100%;
+}
+
+button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #d8a75c;
+	color: #402531;
+	cursor: pointer;
+}
+
+#about {
+	padding: 10px 20px;
+	border: 2px solid #ffffff;
+	border-radius: 5px;
+	background-color: transparent;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+#about:hover {
+	border: 2px solid #e6e6e6;
+	background-color: #e6e6e6;
+	color: #000000;
+}
+
+button:hover {
+	background-color: #fac06a;
+}
+
+.navbar {
+	display: flex;
+}
+
+.nav-button {
+	color: #f0f0f0;
+	background-color: #d4a559;
+	padding: 0.5rem 1rem;
+	margin-left: 1rem;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.nav-button:hover {
+	background-color: #c2954b;
+}
+
+.nav-button.active {
+	background-color: #f0f0f0;
+	color: #3b2121;
+}
+
+/* Hero Section */
+.hero-section {
+	text-align: center;
+	padding: 4rem 1rem;
+	color: #d4a559;
+}
+
+.hero-title {
+	font-size: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+.hero-description {
+	font-size: 1.1rem;
+	color: #f0f0f0;
+	max-width: 700px;
+	margin: 0 auto;
+}
+
+/* Content Section */
+.content-section {
+	max-width: 800px;
+	margin: 2rem auto;
+	padding: 0 1rem;
+}
+
+.section-title {
+	font-size: 1.8rem;
+	margin-bottom: 1rem;
+	color: #d4a559;
+	text-align: left;
+}
+
+p {
+	margin-bottom: 1.5rem;
+}
+
+ul {
+	background-color: #402531; /* White background for the card */
+	padding: 20px; /* Spacing inside the card */
+	border-radius: 8px; /* Rounded corners */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+	list-style-type: none; /* Remove default list bullets */
+	margin: 20px 0; /* Add margin around the card */
+}
+
+ul li {
+	padding: 10px 0; /* Vertical spacing between list items */
+	border-bottom: 1px solid #eee; /* Light border between items */
+}
+
+ul li:last-child {
+	border-bottom: none; /* Remove border for the last item */
+}
+
+ul li strong {
+	font-weight: bold; /* Make the title text bold */
+	color: #d4a559; /* Dark color for the text */
+}
+
+ul li p {
+	margin: 5px 0 0 0; /* Space between the description and title */
+	color: #666; /* Lighter color for the description */
+}
+
+strong {
+	color: #d4a559;
+}
+
+.icon {
+	vertical-align: middle;
+	margin-left: 1%;
+}
+
+/* Background Animation Placeholder */
+.hero-section::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url("background-pattern.png") no-repeat center center / cover;
+	opacity: 0.1;
+	pointer-events: none;
+}

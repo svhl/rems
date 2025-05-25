@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 * {
 	margin: 0;
 	padding: 0;
@@ -176,4 +177,180 @@ button:hover {
 	#loginCard {
 		border-radius: 0;
 	}
+=======
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    background: #402531;
+}
+
+.hvr-grow {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    cursor: pointer;
+}
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#loginCard {
+    position: relative;
+    height: 40%;
+    width: 50%;
+    padding: 48px 68px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+#loginCard:hover {
+    box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+}
+
+#loginCard::before {
+    content: "";
+    position: absolute;
+    top: 10%; /* Adjusts the vertical start point */
+    bottom: 10%; /* Adjusts the vertical end point */
+    left: 40%; /* Slightly to the left of the center */
+    width: 1px; /* Thickness of the line */
+    background-color: white; /* Line color */
+    opacity: 0.2; /* Optional: makes the line slightly transparent */
+}
+
+h1 {
+    position: absolute;
+    font-family: serif;
+    top: 35%;
+    left: 8%;
+    transform: translateY(-50%);
+    font-size: 50px;
+    color: #ffffff;
+    width: 25%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-right: 6%;
+}
+
+.inputField {
+    width: 100%;
+    padding: 15px;
+    color: #ffffff;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 0.25rem;
+    border-width: 0.0625rem;
+    border-color: rgba(128, 128, 128, 0.7);
+    box-sizing: border-box;
+}
+
+#username {
+    position: absolute;
+    top: 30%;
+    left: 51%;
+    height: 10%;
+    width: 40%;
+    padding: 20px;
+}
+
+#password {
+    position: absolute;
+    top: 45%;
+    left: 51%;
+    height: 10%;
+    width: 40%;
+    padding: 20px;
+}
+
+button {
+    position: absolute;
+    font-family: sans-serif;
+    top: 60%;
+    right: 9%;
+    height: 10%;
+    width: 15%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #d8a75c;
+}
+
+button:hover {
+    background-color: #fac06a;
+}
+
+.logo {
+    position: absolute; /* Keeps it absolutely positioned */
+    top: 15px; /* Align 10px from the top */
+    left: 15px; /* Align 10px from the left */
+    width: 42px; /* Fixed width to match the size in the first CSS */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .logo {
+        top: 25px;
+        left: 25px;
+        width: 50px;
+    }
+
+    #loginCard {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin-top: 20px;
+        transition: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+        background: none;
+    }
+
+    #loginCard::before {
+        content: none;
+    }
+
+    h1 {
+        top: 13%;
+        left: 25px;
+        font-size: 35px;
+    }
+
+    #username {
+        top: 25%;
+        left: 25px;
+        height: 6%;
+        width: 86%;
+    }
+
+    #password {
+        top: 33%;
+        left: 25px;
+        height: 6%;
+        width: 86%;
+    }
+
+    button {
+        top: 45%;
+        left: 25px;
+        height: 6%;
+        width: 86%;
+    }
+>>>>>>> 273ef6b39b6928f9892bca4e48f10a0568a7a5b3
 }

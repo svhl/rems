@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "rems",
   "version": "1.0.0",
@@ -18,3 +19,24 @@
     "rems": "file:"
   }
 }
+=======
+{
+  "name": "rems",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "A platform to manage events for students, teachers, and event organizers at Rajagiri.",
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.3"
+  }
+}
+>>>>>>> 273ef6b39b6928f9892bca4e48f10a0568a7a5b3
