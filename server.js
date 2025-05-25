@@ -9,7 +9,7 @@ const upload = multer();
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "password",
+	password: "24June2004",
 	database: "rajagiri",
 });
 
