@@ -219,22 +219,23 @@ label {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 	gap: 20px;
-	padding: 25px;
+	padding: 24px;
 	box-sizing: border-box;
 }
 
 .event {
-	background-color: #1e1118;
+	background-color: #24151e;
 	border-radius: 5px;
 	padding: 15px;
 	color: #ffffff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	line-height: 1.5;
+	line-height: 1;
 	font-family: "Inter", sans-serif;
 	font-size: 1rem;
 	box-sizing: border-box;
+	
 }
 
 .event a {
@@ -243,13 +244,21 @@ label {
 }
 
 .event strong {
-	color: #d8a75c;
-	font-size: 1.1rem;
-	padding-bottom: 5px;
+	color: #e0ac5f;
+	box-shadow: rgb(248, 242, 242) 2px 2.8px;
+	margin-bottom:10px;
+	text-align: center;
+	text-shadow: white;
+	font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 1.5rem;
+	padding: 3px 5px;
+	background-image: linear-gradient(rgb(60, 18, 38), rgba(95, 51, 79, 0.671));;
+	
 }
 
 .event span {
 	color: #ffffff;
+	padding: 3px 5px;
 }
 
 #upload {

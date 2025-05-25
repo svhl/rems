@@ -11,8 +11,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.0",
+    "express": "^4.21.2",
     "express-session": "^1.18.0",
-    "mysql2": "^3.11.3"
+    "multer": "^2.0.0",
+    "mysql2": "^3.14.1",
+    "rems": "file:"
   }
 }

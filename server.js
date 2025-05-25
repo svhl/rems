@@ -2,14 +2,14 @@ const express = require("express");
 const mysql = require("mysql2");
 const session = require("express-session");
 const app = express();
-const port = 3000;
+const port = 3001;
 const multer = require("multer");
 const upload = multer();
 
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "password",
+	password: "24June2004",
 	database: "rajagiri",
 });
 
