@@ -173,20 +173,24 @@ input {
 #actionbuttons {
 	display: flex;
 	gap: 10px;
+	margin-top: -1px;
 }
 
 .approve,
 .reject,
 .submit {
 	font-family: "Inter", sans-serif;
-	padding: 10px 20px;
+	padding: 10px 10px;
 	border: none;
 	border-radius: 5px;
+	box-shadow:-1px -1px white;
 	background-color: #402531;
 	color: #ffffff;
 	cursor: pointer;
 	margin-top: 10px;
+	margin-left: 10px;
 	width: 8em;
+	margin-bottom: -15px;
 	font-size: 0.75em;
 }
 
@@ -254,7 +258,7 @@ label {
 	font-weight:bolder;
 	text-align: center;
 	text-shadow: 1.2px 1px #363636;
-	background: linear-gradient(to right, rgb(0, 0, 0) , rgb(108, 68, 105));
+	background-image: linear-gradient(to bottom right, black, #402531);
 	box-shadow: 2px 2px rgb(249, 230, 254);
 	width: 100%;
 	max-height: 45px;
@@ -264,7 +268,7 @@ label {
 }
 
 .details{
-	background-color: #000000;
+	background-image: linear-gradient(to bottom right, black, #402531);
 	border-radius: 5px;
 	box-shadow: 2px 2px rgb(249, 230, 254);
 	margin-bottom: 3px;

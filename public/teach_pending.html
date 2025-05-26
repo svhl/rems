@@ -161,6 +161,7 @@
 
 								eventDiv.innerHTML = `
 								<strong>${event.name}</strong> <br>
+								<div class="details">
 								<span><b>Name:</b> ${event.student_name}</span> <br>
 								<span><b>UID:</b> ${event.uid}</span> <br>
 								<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(
@@ -170,17 +171,17 @@
 								<span><b>Points:</b> ${event.points}</span> <br>
 								<span><b>Entry fee:</b> \$${event.fee}</span> <br>
 								<span><b>Venue:</b> ${event.venue}</span> <br>
-								<a href="${event.link}" target="_blank">${event.link}</a> <br>
-								${certificateLink}
-								<br>
-								<div id="actionbuttons">
+								<span><b>Link:
+									<a href="${event.link}" target="_blank">${event.link}</a></b></span> <br>
+								<span><b>${certificateLink}	</b>
+									<div id="actionbuttons">
     								<button class="approve" onclick="approveEvent(${event.event_id}, '${
 									event.uid
 								}')">Approve</button>
     								<button class="reject" onclick="rejectEvent(${event.event_id}, '${
 									event.uid
 								}')">Reject</button>
-								</div>
+								</div></span><br>												
 								`;
 
 								eventsContainer.appendChild(eventDiv);
