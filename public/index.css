@@ -1,3 +1,7 @@
+* {
+	-webkit-tap-highlight-color: transparent;
+}
+
 body {
 	margin: 0;
 	background-color: #130b0f;
@@ -107,7 +111,7 @@ h2 p {
 	font-size: 1.5em;
 	font-family: "Cinzel", serif;
 	font-weight: bold;
-	color: #d8a75c;
+	color: #fac06a;
 	margin-left: 10px;
 	margin-top: 18px;
 }
@@ -119,7 +123,6 @@ h2 p {
 }
 
 .sidebar-nav button {
-	-webkit-tap-highlight-color: transparent;
 	border: none;
 	background-color: #402531;
 	color: #ffffff;
@@ -149,7 +152,6 @@ h2 p {
 }
 
 #hamburger-menu {
-	-webkit-tap-highlight-color: transparent;
 	margin-top: 15px;
 	margin-left: 25px;
 	width: 20px;
@@ -172,7 +174,7 @@ main {
 }
 
 #highlight {
-	background-color: #d8a75c;
+	background-color: #fac06a;
 	color: #402531;
 	cursor: default;
 }

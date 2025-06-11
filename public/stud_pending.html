@@ -141,7 +141,7 @@
 
 								// generate certificate link
 								const certificateLink = event.certificate
-									? `<a href="/api/certificate/${event.event_id}" target="_blank">View certificate</a>`
+									? `<a href="/api/certificate/${event.event_id}" class="stud-pending-cert" target="_blank">View certificate</a>`
 									: "Certificate not available";
 
 								eventDiv.innerHTML = `
