@@ -186,7 +186,7 @@
 
 						.catch((error) => {
 							console.error(error);
-							alert("An error occurred, try again later");
+							alert("An error occurred, try again later.");
 						});
 				}
 
@@ -241,6 +241,8 @@
 						if (response.ok) {
 							alert("Logged out successfully.");
 							window.location.href = "index.html";
+						} else {
+							alert("Error logging out!");
 						}
 					})
 					.catch((error) => {

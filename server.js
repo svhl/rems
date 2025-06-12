@@ -53,7 +53,7 @@ app.post("/api/stud-login", (req, res) => {
     connection.query(sql, [username], (error, results) => {
         if (error) {
             console.error("Error querying user:", error);
-            return res.status(500).json({ error: "Database query error" });
+            return res.status(500).json({ error: "Database query error." });
         }
         if (results.length === 0) {
             return res
@@ -65,9 +65,9 @@ app.post("/api/stud-login", (req, res) => {
         // Directly compare passwords
         if (user.password === password) {
             req.session.user = { uid: user.uid, name: user.name };
-            res.status(200).json({ message: "Login successful" });
+            res.status(200).json({ message: "Login successful." });
         } else {
-            res.status(401).json({ error: "Invalid username or password" });
+            res.status(401).json({ error: "Invalid username or password." });
         }
     });
 });
@@ -81,7 +81,7 @@ app.post("/api/teach-login", (req, res) => {
     connection.query(sql, [username], (error, results) => {
         if (error) {
             console.error("Error querying user:", error);
-            return res.status(500).json({ error: "Database query error" });
+            return res.status(500).json({ error: "Database query error." });
         }
         if (results.length === 0) {
             return res
@@ -93,9 +93,9 @@ app.post("/api/teach-login", (req, res) => {
         // Directly compare passwords
         if (user.password === password) {
             req.session.user = { uid: user.uid, name: user.name };
-            res.status(200).json({ message: "Login successful" });
+            res.status(200).json({ message: "Login successful." });
         } else {
-            res.status(401).json({ error: "Invalid username or password" });
+            res.status(401).json({ error: "Invalid username or password." });
         }
     });
 });
@@ -103,9 +103,9 @@ app.post("/api/teach-login", (req, res) => {
 // Endpoint to check authentication
 app.get("/api/check-auth", (req, res) => {
     if (req.session.user) {
-        res.status(200).json({ message: "Authenticated" });
+        res.status(200).json({ message: "Authenticated." });
     } else {
-        res.status(401).json({ message: "Not authenticated" });
+        res.status(401).json({ message: "Not authenticated." });
     }
 });
 
@@ -114,7 +114,7 @@ app.get("/api/events", (req, res) => {
 
     // Check if user UID is stored in session
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const uid = req.session.user.uid;
@@ -152,7 +152,7 @@ app.get("/api/events", (req, res) => {
         // Pass uid once
         if (error) {
             console.error("Error fetching events:", error);
-            return res.status(500).json({ error: "Failed to fetch events" });
+            return res.status(500).json({ error: "Failed to fetch events." });
         }
         res.json(results);
     });
@@ -191,16 +191,16 @@ app.post("/api/submit", upload.single("certificate"), (req, res) => {
     connection.query(sql, [uid, event_id, certificate], (error, results) => {
         if (error) {
             console.error("Error submitting certificate:", error);
-            return res.status(500).json({ error: "Submission failed" });
+            return res.status(500).json({ error: "Submission failed." });
         }
-        res.status(200).json({ message: "Submission successful" });
+        res.status(200).json({ message: "Submission successful." });
     });
 });
 
 app.get("/api/submitted-events", (req, res) => {
     // Check if user UID is stored in session
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const uid = req.session.user.uid;
@@ -242,7 +242,7 @@ app.get("/api/submitted-events", (req, res) => {
 app.get("/api/approved-events", (req, res) => {
     // Check if user UID is stored in session
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const uid = req.session.user.uid;
@@ -275,7 +275,7 @@ app.get("/api/approved-events", (req, res) => {
 app.get("/api/pending-events", (req, res) => {
     // Check if user UID is stored in session
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     // SQL query to fetch pending events with student information
@@ -327,7 +327,7 @@ app.get("/api/certificate/:eventId", (req, res) => {
         }
 
         if (results.length === 0 || !results[0].certificate) {
-            return res.status(404).json({ error: "Certificate not found" });
+            return res.status(404).json({ error: "Certificate not found." });
         }
 
         // Send the image as inline to view it in the browser
@@ -351,7 +351,7 @@ app.get("/api/certificate/:eventId/:studentUid", (req, res) => {
         }
 
         if (results.length === 0 || !results[0].certificate) {
-            return res.status(404).json({ error: "Certificate not found" });
+            return res.status(404).json({ error: "Certificate not found." });
         }
 
         // Send the image as inline to view it in the browser
@@ -364,7 +364,7 @@ app.get("/api/certificate/:eventId/:studentUid", (req, res) => {
 app.post("/api/approve-event", (req, res) => {
     // Check if the teacher is authenticated
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const { event_id, uid } = req.body; // Get the uid and event_id from the request body
@@ -373,7 +373,7 @@ app.post("/api/approve-event", (req, res) => {
     console.log("Event ID:", event_id); // Debugging line
 
     if (!uid || !event_id) {
-        return res.status(400).json({ error: "Invalid event or user data" });
+        return res.status(400).json({ error: "Invalid event or user data." });
     }
 
     // Now insert the event into the 'myevents' table without the certificate
@@ -412,13 +412,13 @@ app.post("/api/approve-event", (req, res) => {
                             deleteError
                         );
                         return res.status(500).json({
-                            error: "Failed to remove event from submissions",
+                            error: "Failed to remove event from submissions.",
                         });
                     }
 
                     res.status(200).json({
                         message:
-                            "Event approved and removed from pending list successfully",
+                            "Event approved and removed from pending list successfully.",
                     });
                 }
             );
@@ -429,7 +429,7 @@ app.post("/api/approve-event", (req, res) => {
 app.post("/api/reject-event", (req, res) => {
     // Check if the teacher is authenticated
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const { event_id, uid } = req.body; // Get the uid and event_id from the request body
@@ -438,7 +438,7 @@ app.post("/api/reject-event", (req, res) => {
     console.log("Event ID:", event_id); // Debugging line
 
     if (!uid || !event_id) {
-        return res.status(400).json({ error: "Invalid event or user data" });
+        return res.status(400).json({ error: "Invalid event or user data." });
     }
 
     const sql = `
@@ -450,10 +450,10 @@ app.post("/api/reject-event", (req, res) => {
     connection.query(sql, [event_id, uid], (error, results) => {
         if (error) {
             console.error("Error rejecting event:", error);
-            return res.status(500).json({ error: "Failed to reject event" });
+            return res.status(500).json({ error: "Failed to reject event." });
         }
 
-        res.status(200).json({ message: "Event rejected successfully" });
+        res.status(200).json({ message: "Event rejected successfully." });
     });
 });
 
@@ -462,20 +462,20 @@ function isAuthenticated(req, res, next) {
     if (req.session.user) {
         next();
     } else {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({ message: "Unauthorized." });
     }
 }
 
 app.delete("/api/delete-event", (req, res) => {
     // Check if the teacher is authenticated
     if (!req.session.user) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ error: "Not authenticated." });
     }
 
     const { event_id } = req.body; // Get event_id from the request body
 
     if (!event_id) {
-        return res.status(400).json({ error: "Invalid event data" });
+        return res.status(400).json({ error: "Invalid event data." });
     }
 
     // SQL query to delete the event from the events table
@@ -485,14 +485,14 @@ app.delete("/api/delete-event", (req, res) => {
     connection.query(sql, [event_id], (error, results) => {
         if (error) {
             console.error("Error deleting event:", error);
-            return res.status(500).json({ error: "Failed to delete event" });
+            return res.status(500).json({ error: "Failed to delete event." });
         }
 
         if (results.affectedRows === 0) {
-            return res.status(404).json({ error: "Event not found" });
+            return res.status(404).json({ error: "Event not found." });
         }
 
-        res.status(200).json({ message: "Event deleted successfully" });
+        res.status(200).json({ message: "Event deleted successfully." });
     });
 });
 
@@ -521,7 +521,7 @@ app.post("/api/add-event", (req, res) => {
         !venue ||
         !link
     ) {
-        return res.status(400).json({ error: "All fields are required" });
+        return res.status(400).json({ error: "All fields are required." });
     }
 
     // SQL query to insert data into the events table
@@ -547,11 +547,11 @@ app.post("/api/add-event", (req, res) => {
         (error, results) => {
             if (error) {
                 console.error("Error adding event:", error);
-                return res.status(500).json({ error: "Failed to add event" });
+                return res.status(500).json({ error: "Failed to add event." });
             }
 
             // Send success response
-            res.status(201).json({ message: "Event added successfully" });
+            res.status(201).json({ message: "Event added successfully." });
         }
     );
 });
@@ -560,11 +560,11 @@ app.post("/api/logout", (req, res) => {
     // Destroy the session to log the user out
     req.session.destroy((err) => {
         if (err) {
-            return res.status(500).json({ error: "Failed to log out" });
+            return res.status(500).json({ error: "Failed to log out." });
         }
 
         // Send a response indicating the user has been logged out
-        res.status(200).json({ message: "Logged out successfully" });
+        res.status(200).json({ message: "Logged out successfully." });
     });
 });
 
