@@ -26,6 +26,14 @@ However, REMS provides a better user experience while maintaining functionality.
 
 ## Screenshots
 
+<img src="https://github.com/user-attachments/assets/fe4d79a8-e99a-4c5c-92af-5ad50e34eb43" width="600"/>
+
+<img src="https://github.com/user-attachments/assets/b43a24ed-3fd0-49a4-8c15-65c1ca760508" width="600"/>
+
+<img src="https://github.com/user-attachments/assets/b4f34a3b-0874-4fdd-8775-3b6d6200a2b6" width="600"/>
+
+<img src="https://github.com/user-attachments/assets/f18a2853-379a-43fd-b012-e7eaa62ef8e5" width="600"/>
+
 ## Live hosting
 
 The frontend and Node.js are hosted on [Render](https://render.com/), and the MySQL database is hosted on [Aiven](https://aiven.io/).
