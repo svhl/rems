@@ -15,7 +15,7 @@ create table students(
 	uid varchar(8) primary key,
 	name varchar(100) not null,
 	password varchar(100) not null,
-	points int default 0
+	points int 
 );
 
 create table teachers(

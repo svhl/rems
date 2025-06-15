@@ -54,6 +54,11 @@
 						Approved Events
 					</button>
 
+					<button onclick="window.location.href='stud_profile.html'">
+						<span class="material-symbols-outlined">account_circle</span>
+						Profile
+					</button>	
+
 					<button id="logout" onclick="logout()">
 						<span class="material-symbols-outlined">logout</span>
 						Logout
@@ -71,17 +76,29 @@
 
 			<main>
 				<h1>Available Events</h1>
-
-				<div id="filterContainer">
-					<select id="filterDropdown">
-						<option value="all">All events</option>
-						<option value="upcoming">Upcoming events</option>
-						<option value="lastWeek">Events in last week</option>
-						<option value="lastMonth">Events in last month</option>
-						<option value="lastSixMonths">
-							Events in last 6 months
-						</option>
-					</select>
+				<div id="Navbar">
+					<div id="SearchBar">
+						<input
+							type="text"
+							id="eventSearchInput"
+							placeholder="🔍 Search event..."
+							autocomplete="off"
+						/>
+						<div id="autocompleteList" class="autocomplete-items"></div>
+					
+					</div>
+					
+					<div id="filterContainer">
+						<select id="filterDropdown">
+							<option value="all">All events</option>
+							<option value="upcoming">Upcoming events</option>
+							<option value="lastWeek">Events in last week</option>
+							<option value="lastMonth">Events in last month</option>
+							<option value="lastSixMonths">
+								Events in last 6 months
+							</option>
+						</select>
+					</div>
 				</div>
 
 				<div id="eventsContainer">
@@ -99,101 +116,89 @@
 				// hidden on desktop
 				sidebar.classList.toggle("open");
 			}
+			let allEvents = []; // Store all fetched events for search
 
-			document.addEventListener("click", function (event) {
-				const sidebar = document.getElementById("sidebar");
-				const hamburgerMenu = document.getElementById("hamburger-menu");
-
-				// check if mouse click outside sidebar and not on hamburger menu
-				if (
-					!sidebar.contains(event.target) &&
-					!hamburgerMenu.contains(event.target)
-				) {
-					// close sidebar if open
-					sidebar.classList.remove("open");
-				}
-			});
-
-			// format date as "dd MMM yyyy"
 			function formatDate(dateString) {
-				const options = {
-					day: "2-digit",
-					month: "short",
-					year: "numeric",
-				};
-				return new Date(dateString).toLocaleDateString(
-					"en-GB",
-					options
-				);
+				const options = { day: "2-digit", month: "short", year: "numeric" };
+				return new Date(dateString).toLocaleDateString("en-GB", options);
 			}
 
+			function loadEvents(filter = "all") {
+				fetch(`/api/events?filter=${filter}`)
+					.then((response) => response.json())
+					.then((events) => {
+						allEvents = events; // Save all events for search
+						displayEvents(events); // Render events
+					})
+					.catch((error) => {
+						console.error(error);
+						alert("An error occurred, try again later");
+					});
+			}
+
+			function displayEvents(events) {
+				const eventsContainer = document.getElementById("eventsContainer");
+				eventsContainer.innerHTML = "";
+
+				events.forEach((event) => {
+					const eventDiv = document.createElement("div");
+					eventDiv.classList.add("event");
+
+					eventDiv.innerHTML = `
+						<strong>${event.name}</strong> <br>
+						<div class="details">
+							<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(event.end_date)}</span> <br> <hr color="grey" size=0.1>
+							<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br><hr color="grey" size=0.1>
+							<span><b>Points:</b> ${event.points}</span> <br><hr color="grey" size=0.1>
+							<span><b>Entry fee:</b> ₹${event.fee}</span> <br><hr color="grey" size=0.1>
+							<span><b>Venue:</b> ${event.venue}</span> <br><hr color="grey" size=0.1>
+							<span><b>Link:</b> <a href="${event.link}" target="_blank">${event.link}</a></span><br><hr color="grey" size=0.1>
+							<span><b>Upload Certificate:</b></span>
+							<span>
+								<input type="file" id="certificateInput-${event.event_id}" style="margin-top: 5px;">
+								<button id="upload" onclick="submitCertificate(${event.event_id})" style="margin-top: 5px;">Upload</button>
+							</span>
+						</div>
+					`;
+
+					eventsContainer.appendChild(eventDiv);
+				});
+			}
+
+			
 			document.addEventListener("DOMContentLoaded", function () {
 				fetch("/api/check-auth")
 					.then((response) => {
 						if (response.status === 401) {
 							window.location.href = "index.html";
 						} else if (response.ok) {
-							document.getElementById("loading").style.display =
-								"none";
-							document.getElementById(
-								"mainContent"
-							).style.display = "block";
+							document.getElementById("loading").style.display = "none";
+							document.getElementById("mainContent").style.display = "block";
 							loadEvents();
 						}
 					})
-
 					.catch((error) => {
 						console.error(error);
 						window.location.href = "index.html";
 					});
 
-				function loadEvents(filter = "all") {
-					fetch(`/api/events?filter=${filter}`)
-						.then((response) => response.json())
-						.then((events) => {
-							const eventsContainer =
-								document.getElementById("eventsContainer");
-							eventsContainer.innerHTML = "";
+				const searchInput = document.getElementById("eventSearchInput");
+				searchInput.addEventListener("input", () => {
+					const query = searchInput.value.toLowerCase().trim();
 
-							events.forEach((event) => {
-								const eventDiv = document.createElement("div");
-								eventDiv.classList.add("event");
+					if (!query) {
+						displayEvents(allEvents);
+						return;
+					}
 
-								eventDiv.innerHTML = `
-									<strong>${event.name}</strong> <br>
-									
-									<div class="details">
-									<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(
-									event.end_date
-								)}</span> <br>
-									<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br>
-									<span><b>Points:</b> ${event.points}</span> <br>
-									<span><b>Entry fee:</b> ₹${event.fee}</span> <br>
-									<span><b>Venue:</b> ${event.venue}</span> <br>
-									<span><b>Link:
-									<a href="${event.link}" target="_blank">${event.link}</a></b></span><br>
-									<span><b>Upload Certificate:</b></span>
-									<span><input type="file" id="certificateInput-${
-										event.event_id
-									}" style="margin-top: 5px;">
-									<span><button id="upload" onclick="submitCertificate(${
-										event.event_id
-									})" style="margin-top: 5px;">Upload</button></span><br></div>
-								`;
+					const filteredEvents = allEvents.filter((event) =>
+						event.name.toLowerCase().includes(query)
+					);
 
-								eventsContainer.appendChild(eventDiv);
-							});
-						})
+					displayEvents(filteredEvents);
+				});
 
-						.catch((error) => {
-							console.error(error);
-							alert("An error occurred, try again later");
-						});
-				}
-
-				// dropdown filter
-				const filterDropdown =
-					document.getElementById("filterDropdown");
+				const filterDropdown = document.getElementById("filterDropdown");
 				filterDropdown.addEventListener("change", () => {
 					const selectedFilter = filterDropdown.value;
 					loadEvents(selectedFilter);
@@ -201,9 +206,7 @@
 			});
 
 			function submitCertificate(event_id) {
-				const input = document.querySelector(
-					`#certificateInput-${event_id}`
-				);
+				const input = document.querySelector(`#certificateInput-${event_id}`);
 
 				if (!input.files.length) {
 					alert("Please select a certificate.");
@@ -211,7 +214,6 @@
 				}
 
 				const formData = new FormData();
-				// include event ID and file and submit
 				formData.append("event_id", event_id);
 				formData.append("certificate", input.files[0]);
 
@@ -249,6 +251,16 @@
 						alert("An error occurred, try again later.");
 					});
 			}
+
+			document.addEventListener("click", function (event) {
+				const sidebar = document.getElementById("sidebar");
+				const hamburgerMenu = document.getElementById("hamburger-menu");
+
+				if (!sidebar.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+					sidebar.classList.remove("open");
+				}
+			});
+
 		</script>
 	</body>
 </html>

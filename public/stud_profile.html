@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>REMS | Student Profile</title>
+	<link rel="stylesheet" href="dashboard.css" />
+	<link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+	/>
+</head>
+<body>
+	<div id="sidebar">
+		<div class="sidebar-header">
+			<img src="rajagiri.png" alt="Logo" class="logo" />
+			<span class="sidebar-title">REMS</span>
+		</div>
+		<nav class="sidebar-nav">
+			<button onclick="window.location.href='stud_events.html'">
+				<span class="material-symbols-outlined">event</span> Events
+			</button>
+			<button id="highlight">
+				<span class="material-symbols-outlined">account_circle</span> Profile
+			</button>
+			<button onclick="logout()">
+				<span class="material-symbols-outlined">logout</span> Logout
+			</button>
+		</nav>
+		<span class="sidebar-footer">REMS is not officially associated with Rajagiri</span>
+	</div>
+
+	<main>
+		<h1>Student Profile</h1>
+		<div class="profile-card">
+			<p><strong>UID: </strong> <span id="profileUID">Loading...</span></p><hr color="grey" size=0.1>
+			<p><strong>Name:</strong> <span id="profileName">Loading...</span></p><hr color="grey" size=0.1>
+			<p><strong>Total Activity Points:</strong> <span id="profilePoints">Loading...</span></p><hr color="grey" size=0.1>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			fetch("/api/student-profile")
+				.then((res) => {
+					if (!res.ok) throw new Error("Unauthorized");
+					return res.json();
+				})
+				.then((data) => {
+					document.getElementById("profileUID").textContent = data.uid;
+					document.getElementById("profileName").textContent = data.name;
+					document.getElementById("profilePoints").textContent = data.points;
+				})
+				.catch((err) => {
+					console.error("Profile fetch error:", err);
+					alert("Please log in again.");
+					window.location.href = "stud_login.html";
+				});
+		});
+
+		function logout() {
+			fetch("/api/logout", { method: "POST" }).then(() => {
+				window.location.href = "index.html";
+			});
+		}
+	</script>
+</body>
+</html>

@@ -117,6 +117,28 @@ h1 {
 	font-size: 20px;
 }
 
+.profile-card {
+	margin-left: 30px;
+	padding: 20px;
+	border-style: solid;
+	border-width: thin;
+	border-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	width: fit-content;
+	background-image: linear-gradient(to bottom right, black, #402531);
+	align-items: left;
+	font-size: large;
+}
+
+.profile-card p{
+	color:#f2bb68;
+}
+.profile-card span{
+	color:white;
+}
+
+
 #highlight {
 	background-color: #d8a75c;
 	color: #402531;
@@ -144,6 +166,28 @@ h1 {
 	z-index: 1;
 	position: relative;
 	padding-bottom: 10px;
+}
+
+#Navbar{
+	display: flex;
+	justify-content: right; /* Center-aligns the dropdown */
+	margin-bottom: 5px; 
+}
+#SearchBar{
+	display: flex;
+	margin-right: 5px;
+	margin-bottom: 20px;
+}
+#eventSearchInput {
+	width: 100%;
+	padding: 2px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	
+}
+
+#placeholder{
+	color:white;
 }
 
 #filterContainer {
@@ -197,6 +241,7 @@ input {
 .submit {
 	background-color: #d8a75c;
 	color: #130b0f;
+	margin-bottom: 10px;
 }
 
 .approve:hover,
@@ -222,7 +267,7 @@ label {
 #eventsContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
-	gap: 30px;
+	gap: 20px;
 	padding: 20px;
 	box-sizing: border-box;
 }
@@ -273,6 +318,13 @@ label {
 	box-shadow: 2px 2px rgb(249, 230, 254);
 	margin-bottom: 3px;
 }
+.event hr{
+	display: flex;
+	width:90%;
+	margin-left: 10px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
 
 .event span {
 	color: #ffffff;
@@ -281,21 +333,23 @@ label {
 
 #upload {
 	padding: 2px 11px;
-	border: 2px solid #ffffff;
-	font-size: 12px;
+	border: 1px solid #ffffff;
+	font-size: 13px;
 	border-radius: 4px;
 	background-color: transparent;
 	color: #ffffff;
 	cursor: pointer;
 	width: fit-content;
-	align-self: flex-start;
+	margin-left:10px;
 	font-family: sans-serif;
+	margin-bottom:10px;
 }
 
 #upload:hover {
 	border: 2px solid #e6e6e6;
 	background-color: #e6e6e6;
 	color: #000000;
+	text-decoration: underline;
 }
 
 main {

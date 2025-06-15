@@ -46,6 +46,11 @@
 						Approved Events
 					</button>
 
+					<button onclick="window.location.href='stud_profile.html'">
+						<span class="material-symbols-outlined">account_circle</span>
+						Profile
+					</button>	
+
 					<button id="logout" onclick="logout()">
 						<span class="material-symbols-outlined">logout</span>
 						Logout
@@ -150,11 +155,11 @@
 									<div class="details">
 									<span><b>Date:</b> ${formatDate(event.start_date)} to ${formatDate(
 									event.end_date
-								)}</span> <br>
-									<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br>
-									<span><b>Points:</b> ${event.points}</span> <br>
-									<span><b>Entry fee:</b> ₹${event.fee}</span> <br>
-									<span><b>Venue:</b> ${event.venue}</span> <br>
+								)}</span> <br><hr color="grey" size=0.1>
+									<span><b>Time:</b> ${event.start_time} to ${event.end_time}</span> <br><hr color="grey" size=0.1>
+									<span><b>Points:</b> ${event.points}</span> <br><hr color="grey" size=0.1>
+									<span><b>Entry fee:</b> ₹${event.fee}</span> <br><hr color="grey" size=0.1>
+									<span><b>Venue:</b> ${event.venue}</span> <br><hr color="grey" size=0.1>
 									<span><b>Link:
 									<a href="${event.link}" target="_blank">${event.link}</a></b></span><br>
 									<span><b>${certificateLink}</b></span>	

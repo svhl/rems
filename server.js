@@ -163,6 +163,44 @@ app.post("/api/submit", upload.single("certificate"), (req, res) => {
 	});
 });
 
+app.get('/api/student-profile', (req, res) => {
+console.log('Session UID:', req.session.user.uid);	
+  if (!req.session.user || !req.session.user.uid) {
+    return res.status(401).json({ error: 'Not logged in' });
+  }
+
+  const uid = req.session.user.uid;
+
+ const sql = `
+  SELECT s.uid, s.name, COALESCE(SUM(e.points), 0) AS points
+  FROM students s
+  LEFT JOIN myevents me ON me.uid = s.uid
+  LEFT JOIN events e ON e.event_id = me.event_id
+  WHERE s.uid = ?
+  GROUP BY s.uid, s.name
+`;
+
+
+  connection.query(sql, [uid], (error, results) => {
+    if (error) {
+      console.error('Database error:', error);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    const student = results[0];
+
+    res.json({
+      uid: student.uid,
+      name: student.name,
+      points: student.points
+    });
+  });
+});
+
 app.get("/api/submitted-events", (req, res) => {
 	// Check if user UID is stored in session
 	if (!req.session.user) {
